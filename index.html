@@ -59,7 +59,7 @@ a{color:inherit;text-decoration:none}
 .nav-logo::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--g1);transition:width .3s}
 .nav-logo:hover::after{width:100%}
 .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
-.nav-links a{color:var(--t2);text-decoration:none;font-size:.88rem;font-weight:500;transition:var(--tr);padding:6px 12px;border-radius:8px;position:relative}
+.nav-links a{color:var(--t2);text-decoration:none;font-size:.85rem;font-weight:500;transition:var(--tr);padding:6px 12px;border-radius:8px;position:relative;white-space:nowrap}
 .nav-links a:hover,.nav-links a.active{color:var(--accL);background:var(--accG)}
 .nav-links a.active{font-weight:600}
 .nav-links a::after{content:'';position:absolute;bottom:2px;left:12px;right:12px;height:2px;background:var(--g1);transform:scaleX(0);transition:transform .3s;transform-origin:center}
@@ -122,6 +122,8 @@ a{color:inherit;text-decoration:none}
 .btn-outline{padding:12px 28px;background:transparent;color:var(--accL);border:1px solid var(--acc);border-radius:var(--rf);font-size:.9rem;font-weight:600;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:8px}
 .btn-outline:hover{background:var(--acc);color:#fff;box-shadow:var(--sg)}
 .btn-sm{padding:10px 20px;font-size:.85rem;border-radius:var(--rm)}
+.btn-danger{background:var(--er);color:#fff;border:none;padding:10px 18px;border-radius:var(--rs);cursor:pointer;font-size:.85rem;transition:var(--tr);display:inline-flex;align-items:center;gap:5px}
+.btn-danger:hover{background:#c0392b;transform:scale(1.05)}
 
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1200px;margin:0 auto;align-items:center}
@@ -296,7 +298,78 @@ a{color:inherit;text-decoration:none}
 .file-preview-item .file-remove{background:none;border:none;color:var(--er);cursor:pointer;font-size:1.1rem;padding:5px;transition:var(--tr)}
 .file-preview-item .file-remove:hover{transform:scale(1.2)}
 
-/* CERTS */
+/* =============================================
+   SHARE FILES SECTION
+   ============================================= */
+.share-section{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
+.share-container{max-width:1200px;margin:0 auto}
+.share-tabs{display:flex;gap:5px;margin-bottom:30px;flex-wrap:wrap;background:var(--bg1);padding:8px;border-radius:var(--rm);border:1px solid var(--bd)}
+.share-tab{padding:10px 22px;border:none;background:transparent;color:var(--t2);border-radius:var(--rm);font-size:.9rem;font-weight:500;cursor:pointer;transition:var(--tr);font-family:'Inter',sans-serif;display:flex;align-items:center;gap:8px}
+.share-tab:hover{color:var(--t1);background:var(--accG)}
+.share-tab.active{background:var(--acc);color:#fff;font-weight:600;box-shadow:var(--sg)}
+.share-tab.active i{color:#fff}
+.share-tab i{font-size:.9rem}
+
+.share-panel{display:none;animation:fadeUp .4s ease}
+.share-panel.active{display:block}
+
+.share-upload-box{border:2px dashed var(--bd);border-radius:var(--rm);padding:50px 30px;text-align:center;background:var(--bg1);transition:var(--tr);cursor:pointer;position:relative;margin-bottom:30px}
+.share-upload-box:hover,.share-upload-box.dragover{border-color:var(--acc);background:var(--accG);transform:scale(1.005)}
+.share-upload-box i{font-size:3.5rem;color:var(--accL);margin-bottom:15px;display:block}
+.share-upload-box h3{font-size:1.2rem;margin-bottom:8px;color:var(--t1)}
+.share-upload-box p{color:var(--t2);font-size:.95rem;margin-bottom:8px}
+.share-upload-box small{color:var(--t3);font-size:.8rem}
+.share-upload-box input[type=file]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+
+.share-stats{display:flex;gap:20px;margin-bottom:30px;flex-wrap:wrap}
+.share-stat{background:var(--card);border:1px solid var(--bd);border-radius:var(--rm);padding:18px 25px;flex:1;min-width:140px;text-align:center;transition:var(--tr)}
+.share-stat:hover{border-color:var(--acc);box-shadow:var(--sg)}
+.share-stat .s-num{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.share-stat .s-lbl{color:var(--t2);font-size:.8rem;margin-top:4px}
+
+.share-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.share-card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rm);overflow:hidden;transition:var(--tr);backdrop-filter:blur(10px)}
+.share-card:hover{border-color:var(--acc);box-shadow:var(--sg);transform:translateY(-4px)}
+.share-card-header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--bd)}
+.share-card-icon{width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.share-card-icon.pdf{background:rgba(231,76,60,.15);color:#e74c3c}
+.share-card-icon.doc{background:rgba(0,119,181,.15);color:#0077b6}
+.share-card-icon.img{background:rgba(46,204,113,.15);color:#2ecc71}
+.share-card-icon.vid{background:rgba(155,89,182,.15);color:#9b59b6}
+.share-card-icon.zip{background:rgba(243,156,18,.15);color:#f39c12}
+.share-card-icon.other{background:rgba(123,47,247,.15);color:var(--accL)}
+.share-card-info{flex:1;overflow:hidden}
+.share-card-name{font-size:.95rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.share-card-meta{font-size:.78rem;color:var(--t3);margin-top:2px}
+.share-card-body{padding:15px 20px}
+.share-card-desc{color:var(--t2);font-size:.85rem;margin-bottom:12px;line-height:1.5}
+.share-card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.share-card-tag{padding:3px 10px;background:var(--accG);color:var(--accL);border-radius:var(--rf);font-size:.7rem;font-weight:500}
+.share-card-actions{display:flex;gap:8px;flex-wrap:wrap}
+.share-card-btn{padding:8px 16px;border-radius:var(--rf);font-size:.8rem;font-weight:500;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:5px;border:none}
+.share-card-btn.download{background:var(--g2);color:#fff}
+.share-card-btn.download:hover{box-shadow:var(--sg);transform:translateY(-1px)}
+.share-card-btn.share-link{background:var(--accG);color:var(--accL);border:1px solid var(--bd)}
+.share-card-btn.share-link:hover{border-color:var(--acc)}
+.share-card-btn.delete-share{background:rgba(231,76,60,.1);color:var(--er);border:1px solid rgba(231,76,60,.2)}
+.share-card-btn.delete-share:hover{background:rgba(231,76,60,.2)}
+.share-card-footer{padding:12px 20px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--t3)}
+
+.share-empty{text-align:center;padding:60px 20px;color:var(--t3)}
+.share-empty i{font-size:4rem;margin-bottom:15px;display:block;opacity:.3}
+.share-empty p{font-size:1rem;margin-bottom:5px}
+
+.share-link-copied{position:fixed;top:20px;right:20px;background:var(--ok);color:#fff;padding:12px 24px;border-radius:var(--rm);font-weight:600;z-index:10000;transform:translateX(200%);transition:transform .3s ease;box-shadow:var(--sgs)}
+.share-link-copied.show{transform:translateX(0)}
+
+/* Upload progress */
+.upload-progress{margin-top:15px;display:none}
+.upload-progress.active{display:block}
+.upload-progress-bar{height:4px;background:var(--bg1);border-radius:2px;overflow:hidden}
+.upload-progress-fill{height:100%;background:var(--g1);border-radius:2px;width:0;transition:width .3s}
+.upload-progress-text{font-size:.78rem;color:var(--t2);margin-top:5px}
+
+/* Certs */
 .certs-section{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
 .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
 .cert-card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rm);padding:25px;transition:var(--tr);backdrop-filter:blur(10px);display:flex;align-items:flex-start;gap:15px}
@@ -376,7 +449,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bd);position:relative;z-
 .navbar{padding:12px 20px}
 .nav-links{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(10,10,15,.98);flex-direction:column;align-items:center;justify-content:center;gap:8px;z-index:999}
 .nav-links.active{display:flex}
-.nav-links a{font-size:1.2rem;padding:10px 20px}
+.nav-links a{font-size:1.1rem;padding:10px 20px}
 .hamburger{display:flex}
 section{padding:60px 20px}
 .about-grid{grid-template-columns:1fr;gap:30px}
@@ -396,6 +469,9 @@ section{padding:60px 20px}
 .viz-bar{width:4px!important}
 .hero-stats{gap:20px}
 .newsletter-form{flex-direction:column}
+.share-grid{grid-template-columns:1fr}
+.share-tabs{gap:3px}
+.share-tab{padding:8px 14px;font-size:.8rem}
 }
 @media(max-width:480px){
 .hero h1{font-size:2rem}
@@ -405,6 +481,7 @@ section{padding:60px 20px}
 .hero-buttons{flex-direction:column;align-items:center}
 .project-img{height:140px}
 .hero-stat .num{font-size:1.5rem}
+.share-stat{min-width:100px}
 }
 </style>
 </head>
@@ -445,6 +522,7 @@ section{padding:60px 20px}
 <li><a href="#certificacoes" class="nav-link" data-section="certificacoes">Certificações</a></li>
 <li><a href="#radio" class="nav-link" data-section="radio">Rádio</a></li>
 <li><a href="#hobbies" class="nav-link" data-section="hobbies">Hobbies</a></li>
+<li><a href="#compartilhar" class="nav-link" data-section="compartilhar">📁 Compartilhar</a></li>
 <li><a href="#links" class="nav-link" data-section="links">Links</a></li>
 <li><a href="#contato" class="nav-link" data-section="contato">Contato</a></li>
 <li><button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema"><i class="fas fa-moon" id="theme-icon"></i></button></li>
@@ -632,6 +710,75 @@ section{padding:60px 20px}
 </div>
 </section>
 
+<!-- =============================================
+     COMPARTILHAR ARQUIVOS (NOVA SEÇÃO)
+     ============================================= -->
+<section id="compartilhar" class="share-section">
+<div class="section-header fade-in">
+<span class="label">Arquivos</span>
+<h2>Compartilhar <span class="gx">Arquivos</span></h2>
+<p>Envie, visualize e compartilhe arquivos comigo. Tudo salvo localmente no seu navegador!</p>
+</div>
+
+<div class="share-container">
+<!-- Tabs -->
+<div class="share-tabs">
+<button class="share-tab active" data-tab="enviar"><i class="fas fa-upload"></i> Enviar</button>
+<button class="share-tab" data-tab="meus"><i class="fas fa-folder-open"></i> Meus Arquivos</button>
+<button class="share-tab" data-tab="compartilhados"><i class="fas fa-share-alt"></i> Compartilhados</button>
+</div>
+
+<!-- Panel: Enviar Arquivo -->
+<div class="share-panel active" id="panel-enviar">
+<div class="share-upload-box" id="share-upload-box">
+<i class="fas fa-cloud-upload-alt"></i>
+<h3>Arraste ou clique para enviar</h3>
+<p>Faça upload de qualquer arquivo para compartilhar</p>
+<small>PNG, JPG, PDF, DOC, MP4, ZIP, RAR, TXT — até 50MB cada</small>
+<input type="file" id="share-file-input" multiple accept="*/*">
+</div>
+<div class="upload-progress" id="upload-progress">
+<div class="upload-progress-bar"><div class="upload-progress-fill" id="upload-progress-fill"></div></div>
+<div class="upload-progress-text" id="upload-progress-text">Processando...</div>
+</div>
+<div class="file-preview-list" id="share-file-preview-list"></div>
+</div>
+
+<!-- Panel: Meus Arquivos -->
+<div class="share-panel" id="panel-meus">
+<div class="share-stats" id="share-stats">
+<div class="share-stat"><div class="s-num" id="stat-total">0</div><div class="s-lbl">Total</div></div>
+<div class="share-stat"><div class="s-num" id="stat-size">0 KB</div><div class="s-lbl">Espaço</div></div>
+<div class="share-stat"><div class="s-num" id="stat-files">0</div><div class="s-lbl">Arquivos</div></div>
+</div>
+<div class="share-grid" id="meus-arquivos-grid">
+<!-- Arquivos salvos serão inseridos aqui via JS -->
+</div>
+<div class="share-empty" id="meus-vazio">
+<i class="fas fa-folder-open"></i>
+<p>Nenhum arquivo enviado ainda</p>
+<small>Faça upload na aba "Enviar" para começar!</small>
+</div>
+</div>
+
+<!-- Panel: Compartilhados -->
+<div class="share-panel" id="panel-compartilhados">
+<div class="share-stats">
+<div class="share-stat"><div class="s-num" id="stat-shared">0</div><div class="s-lbl">Compartilhados</div></div>
+<div class="share-stat"><div class="s-num" id="stat-downloads">0</div><div class="s-lbl">Downloads</div></div>
+</div>
+<div class="share-grid" id="compartilhados-grid">
+<!-- Links compartilhados serão inseridos aqui -->
+</div>
+<div class="share-empty" id="compartilhados-vazio">
+<i class="fas fa-share-alt"></i>
+<p>Nenhum arquivo compartilhado ainda</p>
+<small>Envie um arquivo e gere um link público!</small>
+</div>
+</div>
+</div>
+</section>
+
 <!-- Depoimentos -->
 <section class="testimonials-section" id="testimonials">
 <div class="section-header fade-in">
@@ -696,8 +843,6 @@ section{padding:60px 20px}
 <div class="form-group"><label for="contact-name">Nome Completo</label><input type="text" id="contact-name" placeholder="Ex: Vitor Lima" required></div>
 <div class="form-group"><label for="contact-assunto">Assunto</label><input type="text" id="contact-assunto" placeholder="Assunto da mensagem"></div>
 <div class="form-group"><label for="contact-message">Mensagem</label><textarea id="contact-message" placeholder="Escreva sua mensagem aqui..." required maxlength="500"></textarea><div class="char-count"><span id="char-count">0</span>/500</div></div>
-
-<!-- UPLOAD DE ARQUIVOS -->
 <div class="form-group">
 <label>Anexar Arquivos</label>
 <div class="file-upload-area" id="file-upload-area">
@@ -708,7 +853,6 @@ section{padding:60px 20px}
 </div>
 <div class="file-preview-list" id="file-preview-list"></div>
 </div>
-
 <button type="submit" class="btn-primary" id="submit-btn"><i class="fas fa-paper-plane"></i> Enviar Mensagem & Arquivos</button>
 <div class="form-message" id="form-message"></div>
 </form>
@@ -735,6 +879,9 @@ section{padding:60px 20px}
 
 <!-- Back to Top -->
 <button class="back-to-top" id="back-to-top" aria-label="Voltar ao topo"><i class="fas fa-chevron-up"></i></button>
+
+<!-- Share Link Copied -->
+<div class="share-link-copied" id="share-link-copied">🔗 Link copiado!</div>
 
 <!-- Privacy Banner -->
 <div class="privacy-banner" id="privacy-banner">
@@ -770,7 +917,7 @@ let mx = 0, my = 0, rx = 0, ry = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cDot.style.left = (mx-4)+'px'; cDot.style.top = (my-4)+'px'; });
 function animCursor() { rx += (mx-rx)*.12; ry += (my-ry)*.12; cRing.style.left = (rx-17.5)+'px'; cRing.style.top = (ry-17.5)+'px'; requestAnimationFrame(animCursor); }
 animCursor();
-const hoverEls = document.querySelectorAll('a, button, .skill-card, .hobby-card, .link-card, .timeline-content, .contact-card, .project-card, .filter-btn, .preset-btn, .theme-toggle, .nav-logo, .testimonial-card, .about-stat');
+const hoverEls = document.querySelectorAll('a, button, .skill-card, .hobby-card, .link-card, .timeline-content, .contact-card, .project-card, .filter-btn, .preset-btn, .theme-toggle, .nav-logo, .testimonial-card, .about-stat, .share-tab, .share-card-btn, .file-preview-item');
 hoverEls.forEach(el => { el.addEventListener('mouseenter', () => cRing.classList.add('hover')); el.addEventListener('mouseleave', () => cRing.classList.remove('hover')); });
 if ('ontouchstart' in window || navigator.maxTouchPoints > 0) { cDot.style.display = 'none'; cRing.style.display = 'none'; }
 
@@ -978,35 +1125,408 @@ volSlider.addEventListener('input', () => { volVal.textContent = Math.round(volS
 document.querySelectorAll('.preset-btn').forEach(b => b.addEventListener('click', () => { urlInput.value = b.getAttribute('data-url'); curStream = ''; playStream(b.getAttribute('data-url')); }));
 
 // =============================================
-// FILE UPLOAD
+// SHARE FILES SECTION — CORE LOGIC
+// =============================================
+const shareTabs = document.querySelectorAll('.share-tab');
+const sharePanels = document.querySelectorAll('.share-panel');
+const shareFileInput = document.getElementById('share-file-input');
+const shareUploadBox = document.getElementById('share-upload-box');
+const sharePreviewList = document.getElementById('share-file-preview-list');
+const uploadProgress = document.getElementById('upload-progress');
+const uploadProgressFill = document.getElementById('upload-progress-fill');
+const uploadProgressText = document.getElementById('upload-progress-text');
+const compartilhadosGrid = document.getElementById('compartilhados-grid');
+const compartilhadosVazio = document.getElementById('compartilhados-vazio');
+const meusArquivosGrid = document.getElementById('meus-arquivos-grid');
+const meusVazio = document.getElementById('meus-vazio');
+const shareLinkCopied = document.getElementById('share-link-copied');
+const statTotal = document.getElementById('stat-total');
+const statSize = document.getElementById('stat-size');
+const statFiles = document.getElementById('stat-files');
+const statShared = document.getElementById('stat-shared');
+const statDownloads = document.getElementById('stat-downloads');
+
+// Tabs
+shareTabs.forEach(tab => {
+tab.addEventListener('click', () => {
+shareTabs.forEach(t => t.classList.remove('active'));
+sharePanels.forEach(p => p.classList.remove('active'));
+tab.classList.add('active');
+document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+if (tab.dataset.tab === 'meus') renderMeusArquivos();
+if (tab.dataset.tab === 'compartilhados') renderCompartilhados();
+updateShareStats();
+});
+});
+
+// Fixar o painel "Enviar" também renderize
+document.getElementById('panel-enviar').addEventListener('click', () => updateShareStats());
+
+// Get file icon class
+function getFileIconClass(name) {
+const ext = name.split('.').pop().toLowerCase();
+if (['pdf'].includes(ext)) return 'pdf';
+if (['doc','docx'].includes(ext)) return 'doc';
+if (['png','jpg','jpeg','gif','bmp','webp','svg'].includes(ext)) return 'img';
+if (['mp4','avi','mov','mkv','webm'].includes(ext)) return 'vid';
+if (['zip','rar','7z','tar','gz'].includes(ext)) return 'zip';
+return 'other';
+}
+
+function formatSize(bytes) {
+if (bytes < 1024) return bytes + ' B';
+if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+function formatDate(iso) {
+const d = new Date(iso);
+return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+}
+
+// Generate a simple unique ID
+function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
+
+// Simulate upload progress
+function simulateUpload(callback) {
+uploadProgress.classList.add('active');
+uploadProgressFill.style.width = '0%';
+uploadProgressText.textContent = 'Iniciando upload...';
+let p = 0;
+const iv = setInterval(() => {
+p += Math.random() * 25 + 10;
+if (p > 90) p = 90;
+uploadProgressFill.style.width = p + '%';
+uploadProgressText.textContent = 'Enviando... ' + Math.round(p) + '%';
+if (p >= 100) {
+clearInterval(iv);
+uploadProgressFill.style.width = '100%';
+uploadProgressText.textContent = '✅ Upload completo!';
+setTimeout(() => {
+uploadProgress.classList.remove('active');
+if (callback) callback();
+}, 800);
+}
+}, 200);
+}
+
+// Share file upload
+shareUploadBox.addEventListener('dragover', e => { e.preventDefault(); shareUploadBox.classList.add('dragover'); });
+shareUploadBox.addEventListener('dragleave', () => shareUploadBox.classList.remove('dragover'));
+shareUploadBox.addEventListener('drop', e => {
+e.preventDefault();
+shareUploadBox.classList.remove('dragover');
+shareFileInput.files = e.dataTransfer.files;
+shareFileInput.dispatchEvent(new Event('change'));
+});
+
+shareFileInput.addEventListener('change', () => {
+const files = Array.from(shareFileInput.files);
+if (files.length === 0) return;
+
+simulateUpload(() => {
+let shareableFiles = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+
+files.forEach(file => {
+if (file.size > 50 * 1024 * 1024) {
+alert('Arquivo "' + file.name + '" excede o limite de 50MB!');
+return;
+}
+const reader = new FileReader();
+reader.onload = function(e) {
+const id = uid();
+const fileData = {
+id: id,
+name: file.name,
+size: file.size,
+type: file.type,
+data: e.target.result,
+date: new Date().toISOString(),
+author: 'Vitor Lima',
+downloads: 0,
+shared: false
+};
+shareableFiles.push(fileData);
+
+// Add preview
+addSharePreview(fileData);
+};
+reader.readAsDataURL(file);
+});
+
+shareFileInput.value = '';
+
+// Delay save to let previews render
+setTimeout(() => {
+localStorage.setItem('shareable_files', JSON.stringify(shareableFiles));
+updateShareStats();
+}, 500);
+});
+});
+
+function addSharePreview(f) {
+const extClass = getFileIconClass(f.name);
+const div = document.createElement('div');
+div.className = 'file-preview-item';
+div.dataset.fileId = f.id;
+div.innerHTML = `
+<i class="fas ${getFileIcon(f.name)} file-icon"></i>
+<div class="file-info">
+<div class="file-name" title="${f.name}">${f.name}</div>
+<div class="file-size">${formatSize(f.size)}</div>
+</div>
+<button class="file-remove" title="Remover">&times;</button>
+`;
+div.querySelector('.file-remove').addEventListener('click', () => {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+arr = arr.filter(sf => sf.id !== f.id);
+localStorage.setItem('shareable_files', JSON.stringify(arr));
+div.remove();
+updateShareStats();
+});
+sharePreviewList.appendChild(div);
+}
+
+// Publish/share a file
+function publishFile(id) {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+let file = arr.find(f => f.id === id);
+if (!file) return;
+file.shared = true;
+localStorage.setItem('shareable_files', JSON.stringify(arr));
+
+// Also save to shared log
+let sharedLog = JSON.parse(localStorage.getItem('shared_log') || '[]');
+sharedLog.push({ id: file.id, name: file.name, link: '#' + file.id, date: new Date().toISOString() });
+localStorage.setItem('shared_log', JSON.stringify(sharedLog));
+
+renderMeusArquivos();
+renderCompartilhados();
+updateShareStats();
+showToast('✅ Arquivo publicado! Link copiado.');
+}
+
+// Generate share link
+function getShareLink(id) {
+// In a real app this would be a real URL. Here we simulate.
+return window.location.origin + window.location.pathname + '#compartilhar?file=' + id;
+}
+
+// Download file from shared
+function downloadSharedFile(id) {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+let file = arr.find(f => f.id === id);
+if (!file) { alert('Arquivo não encontrado.'); return; }
+
+// Increment downloads
+let sharedLog = JSON.parse(localStorage.getItem('shared_log') || '[]');
+let logEntry = sharedLog.find(l => l.id === id);
+if (logEntry) logEntry.downloads = (logEntry.downloads || 0) + 1;
+localStorage.setItem('shared_log', JSON.stringify(sharedLog));
+
+// Trigger download
+let byteChars = atob(file.data.split(',')[1]);
+let byteNumbers = new Array(byteChars.length);
+for (let i = 0; i < byteChars.length; i++) byteNumbers[i] = byteChars.charCodeAt(i);
+let byteArray = new Uint8Array(byteNumbers);
+let blob = new Blob([byteArray], { type: file.type || 'application/octet-stream' });
+let url = URL.createObjectURL(blob);
+let a = document.createElement('a');
+a.href = url;
+a.download = file.name;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+
+// Update display
+document.getElementById('stat-downloads').textContent = parseInt(document.getElementById('stat-downloads').textContent || 0) + 1;
+showToast('📥 Download iniciado: ' + file.name);
+}
+
+// Delete shared file
+function deleteShared(id) {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+arr = arr.filter(f => f.id !== id);
+localStorage.setItem('shareable_files', JSON.stringify(arr));
+
+let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
+log = log.filter(l => l.id !== id);
+localStorage.setItem('shared_log', JSON.stringify(log));
+
+renderMeusArquivos();
+renderCompartilhados();
+updateShareStats();
+showToast('🗑️ Arquivo deletado.');
+}
+
+function copyLink(id) {
+let text = getShareLink(id);
+if (navigator.clipboard) {
+navigator.clipboard.writeText(text).then(() => flashCopied());
+} else {
+let ta = document.createElement('textarea');
+ta.value = text; document.body.appendChild(ta);
+ta.select(); document.execCommand('copy');
+document.body.removeChild(ta);
+flashCopied();
+}
+}
+
+function flashCopied() {
+shareLinkCopied.classList.add('show');
+setTimeout(() => shareLinkCopied.classList.remove('show'), 2000);
+}
+
+function showToast(msg) {
+let t = document.getElementById('share-toast');
+if (!t) {
+t = document.createElement('div');
+t.id = 'share-toast';
+t.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:14px 28px;border-radius:var(--rm);font-weight:600;z-index:10000;box-shadow:var(--sgs);transition:opacity .3s;text-align:center;max-width:90%;';
+document.body.appendChild(t);
+}
+t.textContent = msg;
+t.style.opacity = '1';
+setTimeout(() => t.style.opacity = '0', 3000);
+}
+
+// Update share stats
+function updateShareStats() {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+let totalSize = arr.reduce((s, f) => s + f.size, 0);
+let sharedCount = arr.filter(f => f.shared).length;
+let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
+let totalDowns = log.reduce((s, l) => s + (l.downloads || 0), 0);
+
+statTotal.textContent = arr.length;
+statSize.textContent = formatSize(totalSize);
+statFiles.textContent = arr.length;
+statShared.textContent = sharedCount;
+statDownloads.textContent = totalDowns;
+
+meusVazio.style.display = arr.length === 0 ? 'block' : 'none';
+meusArquivosGrid.style.display = arr.length === 0 ? 'none' : 'grid';
+}
+
+// Render Meus Arquivos
+function renderMeusArquivos() {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+meusArquivosGrid.innerHTML = '';
+
+if (arr.length === 0) {
+meusVazio.style.display = 'block';
+meusArquivosGrid.style.display = 'none';
+return;
+}
+meusVazio.style.display = 'none';
+meusArquivosGrid.style.display = 'grid';
+
+arr.reverse().forEach(f => {
+let extClass = getFileIconClass(f.name);
+let card = document.createElement('div');
+card.className = 'share-card';
+card.innerHTML = `
+<div class="share-card-header">
+<div class="share-card-icon ${extClass}"><i class="${getFileIcon(f.name)}"></i></div>
+<div class="share-card-info">
+<div class="share-card-name">${f.name}</div>
+<div class="share-card-meta">${formatSize(f.size)} • ${formatDate(f.date)}</div>
+</div>
+</div>
+<div class="share-card-body">
+<div class="share-card-tags">
+<span class="share-card-tag">${extClass.toUpperCase()}</span>
+${f.shared ? '<span class="share-card-tag" style="background:rgba(46,204,113,.15);color:#2ecc71">✔ Publicado</span>' : '<span class="share-card-tag">Rascunho</span>'}
+</div>
+<div class="share-card-actions">
+${f.shared ? `<button class="share-card-btn share-link" onclick="copyLink('${f.id}')"><i class="fas fa-link"></i> Copiar Link</button>` : ''}
+<button class="share-card-btn download" onclick="downloadSharedFile('${f.id}')"><i class="fas fa-download"></i> Baixar</button>
+${!f.shared ? `<button class="share-card-btn share-link" onclick="publishFile('${f.id}')" style="background:var(--g1);color:#fff;border:none"><i class="fas fa-paper-plane"></i> Publicar</button>` : ''}
+<button class="share-card-btn delete-share" onclick="deleteShared('${f.id}')"><i class="fas fa-trash"></i></button>
+</div>
+</div>
+<div class="share-card-footer">
+<small>${f.shared ? '🔗 Link público gerado' : '📝 Não publicado'}</small>
+<small>ID: ${f.id.substr(0,8)}</small>
+</div>
+`;
+meusArquivosGrid.appendChild(card);
+});
+}
+
+// Render Compartilhados (Shared / Public files)
+function renderCompartilhados() {
+let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
+let shared = arr.filter(f => f.shared);
+compartilhadosGrid.innerHTML = '';
+
+if (shared.length === 0) {
+compartilhadosVazio.style.display = 'block';
+compartilhadosGrid.style.display = 'none';
+return;
+}
+compartilhadosVazio.style.display = 'none';
+compartilhadosGrid.style.display = 'grid';
+
+shared.forEach(f => {
+let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
+let logEntry = log.find(l => l.id === f.id);
+let downs = logEntry ? (logEntry.downloads || 0) : 0;
+let extClass = getFileIconClass(f.name);
+
+let card = document.createElement('div');
+card.className = 'share-card';
+card.innerHTML = `
+<div class="share-card-header">
+<div class="share-card-icon ${extClass}"><i class="${getFileIcon(f.name)}"></i></div>
+<div class="share-card-info">
+<div class="share-card-name">${f.name}</div>
+<div class="share-card-meta">${formatSize(f.size)} • ${downs} download${downs!==1?'s':''}</div>
+</div>
+</div>
+<div class="share-card-body">
+<p class="share-card-desc">📤 Compartilhado por Vitor Lima</p>
+<div class="share-card-tags">
+<span class="share-card-tag">${extClass.toUpperCase()}</span>
+<span class="share-card-tag">Público</span>
+</div>
+<div class="share-card-actions">
+<button class="share-card-btn download" onclick="downloadSharedFile('${f.id}')"><i class="fas fa-download"></i> Baixar</button>
+<button class="share-card-btn share-link" onclick="copyLink('${f.id}')"><i class="fas fa-link"></i> Copiar Link</button>
+</div>
+</div>
+<div class="share-card-footer">
+<small>📅 ${formatDate(f.date)}</small>
+<small>🔗 ${getShareLink(f.id).substr(-30)}</small>
+</div>
+`;
+compartilhadosGrid.appendChild(card);
+});
+}
+
+// =============================================
+// FILE UPLOAD (Contact Form)
 // =============================================
 const fileInput = document.getElementById('file-input');
 const filePreviewList = document.getElementById('file-preview-list');
 const uploadArea = document.getElementById('file-upload-area');
 let uploadedFiles = [];
 
-// Gera ícone baseado na extensão do arquivo
 function getFileIcon(filename) {
 const ext = filename.split('.').pop().toLowerCase();
 const iconMap = {
-pdf: 'fas fa-file-pdf', doc:'fas fa-file-word', docx:'fas fa-file-word',
+pdf:'fas fa-file-pdf', doc:'fas fa-file-word', docx:'fas fa-file-word',
 txt:'fas fa-file-alt', csv:'fas fa-file-csv', xlsx:'fas fa-file-excel',
 xls:'fas fa-file-excel', png:'fas fa-file-image', jpg:'fas fa-file-image',
-jpeg:'fas fa-file-image', jpg:'fas fa-file-image', mp4:'fas fa-file-video',
+jpeg:'fas fa-file-image', mp4:'fas fa-file-video',
 zip:'fas fa-file-archive', rar:'fas fa-file-archive',
 default: 'fas fa-file'
 };
 return iconMap[ext] || iconMap.default;
 }
 
-// Formata tamanho do arquivo
-function formatSize(bytes) {
-if (bytes < 1024) return bytes + ' B';
-if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
-return (bytes / 1048576).toFixed(1) + ' MB';
-}
-
-function addFilePreview(file) {
+function addContactFilePreview(file) {
 const div = document.createElement('div');
 div.className = 'file-preview-item';
 div.dataset.fileName = file.name;
@@ -1033,26 +1553,17 @@ if (file.size > 20 * 1024 * 1024) {
 alert('Arquivo "' + file.name + '" excede o limite de 20MB!');
 return;
 }
-// Salva como base64 no localStorage
 const reader = new FileReader();
 reader.onload = function(e) {
 const fileData = {
-name: file.name,
-size: file.size,
-type: file.type,
-data: e.target.result, // base64
-timestamp: new Date().toISOString()
+name: file.name, size: file.size, type: file.type,
+data: e.target.result, timestamp: new Date().toISOString()
 };
 uploadedFiles.push(fileData);
-
-// Salvar no localStorage (banco sem banco!)
 let allFiles = JSON.parse(localStorage.getItem('uploaded_files') || '[]');
 allFiles.push(fileData);
 localStorage.setItem('uploaded_files', JSON.stringify(allFiles));
-
-addFilePreview(file);
-
-// Feedback visual
+addContactFilePreview(file);
 uploadArea.style.borderColor = 'var(--ok)';
 setTimeout(() => { uploadArea.style.borderColor = ''; }, 1500);
 };
@@ -1061,20 +1572,17 @@ reader.readAsDataURL(file);
 fileInput.value = '';
 });
 
-// Drag and Drop
-uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
-uploadArea.addEventListener('dragleave', () => { uploadArea.classList.remove('dragover'); });
-uploadArea.addEventListener('drop', (e) => {
-e.preventDefault();
-uploadArea.classList.remove('dragover');
+uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+uploadArea.addEventListener('drop', e => {
+e.preventDefault(); uploadArea.classList.remove('dragover');
 fileInput.files = e.dataTransfer.files;
 fileInput.dispatchEvent(new Event('change'));
 });
 
-// Carregar arquivos salvos no localStorage ao abrir a página
 (function loadSavedFiles() {
 let saved = JSON.parse(localStorage.getItem('uploaded_files') || '[]');
-saved.slice(-5).reverse().forEach(f => { // mostra os 5 últimos
+saved.slice(-5).reverse().forEach(f => {
 const div = document.createElement('div');
 div.className = 'file-preview-item';
 div.innerHTML = `
@@ -1096,7 +1604,7 @@ filePreviewList.appendChild(div);
 })();
 
 // =============================================
-// CONTACT FORM (com envio para Formspree)
+// CONTACT FORM
 // =============================================
 function handleContact(e) {
 e.preventDefault();
@@ -1111,7 +1619,6 @@ fm.className = 'form-message error'; fm.style.display = 'block';
 return;
 }
 
-// Montar corpo do email
 let corpo = `Nome: ${name}\nAssunto: ${assunto || '(sem assunto)'}\nMensagem: ${message}\n`;
 if (uploadedFiles.length > 0) {
 corpo += `\nArquivos anexados (${uploadedFiles.length}):\n`;
@@ -1119,41 +1626,22 @@ uploadedFiles.forEach(f => { corpo += `  - ${f.name} (${formatSize(f.size)})\n`;
 }
 corpo += `\n---\nEnviado via portfólio de Vitor Lima`;
 
-// Opção 1: Formspree (recomendado - descomente abaixo e coloque seu ID do Formspree)
-// const FORMSPREE_ID = 'SEU_FORMSPREE_ID_AQUI';
-// fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-//     body: JSON.stringify({
-//         name: name,
-//         assunto: assunto || '',
-//         message: message,
-//         email: 'admvitordias@gmail.com',
-//         files: uploadedFiles.map(f => f.name)
-//     })
-// }).then(r => { if(r.ok) { ... } });
-
-// Opção 2: Abrir direto no email (Gmail) - FUNCIONA SEM BACKEND
 const emailBody = encodeURIComponent(corpo.trim());
 const emailSubject = encodeURIComponent(assunto || 'Mensagem do Portfólio');
 const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=admvitordias@gmail.com&su=${emailSubject}&body=${emailBody}`;
 
-fm.innerHTML = '📨 <strong>Preparando envio...</strong><br><small>Seu email (Gmail) será aberto automaticamente com os dados preenchidos. Clique em "Enviar" no Gmail para finalizar.</small>';
-fm.className = 'form-message success';
-fm.style.display = 'block';
+fm.innerHTML = '📨 <strong>Preparando envio...</strong><br><small>Seu email será aberto automaticamente. Clique em "Enviar" no Gmail para finalizar.</small>';
+fm.className = 'form-message success'; fm.style.display = 'block';
 
-// Salvar no localStorage
 let msgs = JSON.parse(localStorage.getItem('contact_messages') || '[]');
 msgs.push({ name, assunto, message, files: uploadedFiles.length, date: new Date().toISOString() });
 localStorage.setItem('contact_messages', JSON.stringify(msgs));
 
-// Analytics
 let analytics = JSON.parse(localStorage.getItem('analytics') || '{}');
 analytics.contacts_sent = (analytics.contacts_sent || 0) + 1;
 analytics.last_contact = new Date().toISOString();
 localStorage.setItem('analytics', JSON.stringify(analytics));
 
-// Abrir Gmail após 1.5 segundo
 setTimeout(() => {
 window.open(gmailUrl, '_blank');
 document.getElementById('contact-form').reset();
@@ -1166,13 +1654,12 @@ setTimeout(() => fm.style.display = 'none', 5000);
 return false;
 }
 
-// Char counter
 document.getElementById('contact-message').addEventListener('input', function() {
 document.getElementById('char-count').textContent = this.value.length;
 });
 
 // =============================================
-// NEWSLETTER (localStorage)
+// NEWSLETTER
 // =============================================
 function handleNewsletter(e) {
 e.preventDefault();
@@ -1274,6 +1761,13 @@ localStorage.setItem('analytics', JSON.stringify(data));
 // =============================================
 window.addEventListener('online', () => { document.title = 'Vitor Lima - Portfólio'; });
 window.addEventListener('offline', () => { document.title = '⚠️ Sem conexão - Vitor Lima'; });
+
+// =============================================
+// INITIALIZE SHARE SECTION
+// =============================================
+updateShareStats();
+renderMeusArquivos();
+renderCompartilhados();
 </script>
 </body>
 </html>
