@@ -124,6 +124,8 @@ a{color:inherit;text-decoration:none}
 .btn-sm{padding:10px 20px;font-size:.85rem;border-radius:var(--rm)}
 .btn-danger{background:var(--er);color:#fff;border:none;padding:10px 18px;border-radius:var(--rs);cursor:pointer;font-size:.85rem;transition:var(--tr);display:inline-flex;align-items:center;gap:5px}
 .btn-danger:hover{background:#c0392b;transform:scale(1.05)}
+.btn-warning{background:var(--ws);color:#fff;border:none;padding:10px 18px;border-radius:var(--rs);cursor:pointer;font-size:.85rem;transition:var(--tr);display:inline-flex;align-items:center;gap:5px}
+.btn-warning:hover{background:#e67e22}
 
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1200px;margin:0 auto;align-items:center}
@@ -298,7 +300,9 @@ a{color:inherit;text-decoration:none}
 .file-preview-item .file-remove{background:none;border:none;color:var(--er);cursor:pointer;font-size:1.1rem;padding:5px;transition:var(--tr)}
 .file-preview-item .file-remove:hover{transform:scale(1.2)}
 
-/* SHARE FILES SECTION */
+/* =============================================
+   SHARE FILES SECTION
+   ============================================= */
 .share-section{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
 .share-container{max-width:1200px;margin:0 auto;padding:40px 0}
 .share-tabs{display:flex;gap:5px;margin-bottom:30px;flex-wrap:wrap;background:var(--bg1);padding:8px;border-radius:var(--rm);border:1px solid var(--bd)}
@@ -355,6 +359,119 @@ a{color:inherit;text-decoration:none}
 .upload-progress-bar{height:4px;background:var(--bg1);border-radius:2px;overflow:hidden}
 .upload-progress-fill{height:100%;background:var(--g1);border-radius:2px;width:0;transition:width .15s linear}
 .upload-progress-text{font-size:.78rem;color:var(--t2);margin-top:5px}
+
+/* =============================================
+   DOCUMENTOS (SEÇÃO COM SENHA)
+   ============================================= */
+.documents-section{background:var(--bg3);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);position:relative;overflow:hidden}
+.documents-container{max-width:1200px;margin:0 auto;padding:0 0 40px}
+
+/* Lock Overlay */
+.doc-lock-overlay{position:absolute;top:0;left:0;width:100%;height:100%;min-height:500px;background:var(--bg3);z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;backdrop-filter:blur(5px);transition:opacity .5s ease,visibility .5s ease;border-radius:var(--rm)}
+.doc-lock-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+/* Lock Modal */
+.doc-lock-modal{background:var(--card);border:1px solid var(--bd);border-radius:var(--rl);padding:50px 40px;text-align:center;max-width:420px;width:90%;box-shadow:var(--sgs);animation:fadeUp .5s ease;position:relative}
+.doc-lock-modal::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;bottom:-1px;border-radius:var(--rl);background:var(--g1);z-index:-1;opacity:.3}
+
+.lock-icon{width:80px;height:80px;border-radius:50%;background:var(--accG);display:flex;align-items:center;justify-content:center;margin:0 auto 25px;font-size:2.5rem;color:var(--accL);border:2px solid var(--bd)}
+.lock-icon i{animation:lockPulse 2s ease-in-out infinite}
+@keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+.lock-icon i{font-size:2.5rem}
+
+.lock-modal-context{color:var(--t2);font-size:.95rem;margin-bottom:25px}
+.lock-modal-context p{margin-top:8px;color:var(--t3);font-size:.85rem}
+
+.lock-password-row{display:flex;gap:10px;width:100%;margin-bottom:15px}
+.lock-password-row input{flex:1;padding:14px 18px;background:var(--bg1);border:2px solid var(--bd);border-radius:var(--rm);color:var(--t1);font-size:1.1rem;font-family:'Inter',sans-serif;outline:none;transition:var(--tr);letter-spacing:3px;text-align:center}
+.lock-password-row input:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--accG)}
+.lock-password-row input::placeholder{text-align:center;letter-spacing:normal;color:var(--t3);font-size:.9rem}
+
+.lock-toggle-pw{background:var(--bg1);border:1px solid var(--bd);color:var(--t2);padding:14px 16px;border-radius:var(--rm);cursor:pointer;transition:var(--tr);font-size:.9rem}
+.lock-toggle-pw:hover{border-color:var(--acc);color:var(--accL)}
+
+.lock-error{color:var(--er);font-size:.85rem;margin-bottom:10px;min-height:20px;font-weight:500}
+
+.lock-btn{width:100%;padding:14px 30px;background:var(--g1);color:#fff;border:none;border-radius:var(--rm);font-size:1rem;font-weight:600;cursor:pointer;transition:var(--tr);font-family:'Inter',sans-serif}
+.lock-btn:hover{box-shadow:var(--sgs);transform:translateY(-2px)}
+.lock-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+.lock-attempts{color:var(--t3);font-size:.78rem;margin-top:12px}
+.lock-forgot{color:var(--accL);font-size:.78rem;margin-top:8px;cursor:pointer;text-decoration:underline}
+.lock-forgot:hover{color:var(--acc)}
+
+.lock-animate-shake{animation:lockShake .4s ease}
+@keyframes lockShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+/* Lock Success Modal */
+.doc-lock-success{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:var(--ok);color:#fff;padding:30px 50px;border-radius:var(--rm);font-size:1.3rem;font-weight:700;z-index:10010;opacity:0;transition:all .4s ease;box-shadow:var(--sgs);text-align:center}
+.doc-lock-success.show{transform:translate(-50%,-50%) scale(1);opacity:1}
+
+/* Document Header */
+.doc-header{position:relative;z-index:11;text-align:center;margin-bottom:30px;padding-top:10px}
+.doc-header h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;margin-bottom:10px}
+.doc-header .gx{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.doc-header p{color:var(--t2);font-size:1rem}
+
+/* Doc Stats */
+.document-stats{display:flex;gap:20px;justify-content:center;margin-bottom:30px;flex-wrap:wrap;position:relative;z-index:11}
+.doc-stat{background:var(--card);border:1px solid var(--bd);border-radius:var(--rm);padding:15px 25px;text-align:center;min-width:120px;transition:var(--tr)}
+.doc-stat:hover{border-color:var(--acc);box-shadow:var(--sg)}
+.doc-stat .d-num{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.doc-stat .d-lbl{color:var(--t2);font-size:.8rem;margin-top:4px}
+
+/* Doc Upload Area */
+.doc-upload-area{border:2px dashed var(--bd);border-radius:var(--rm);padding:50px 30px;text-align:center;background:var(--bg1);transition:var(--tr);cursor:pointer;position:relative;margin-bottom:30px;z-index:11}
+.doc-upload-area:hover,.doc-upload-area.dragover{border-color:var(--acc);background:var(--accG);transform:scale(1.002)}
+.doc-upload-area i{font-size:3.5rem;color:var(--accL);margin-bottom:15px;display:block}
+.doc-upload-area h3{font-size:1.2rem;margin-bottom:8px;color:var(--t1)}
+.doc-upload-area p{color:var(--t2);font-size:.95rem;margin-bottom:8px}
+.doc-upload-area small{color:var(--t3);font-size:.8rem}
+.doc-upload-area input[type=file]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+
+/* Doc Grid */
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;padding:0 20px;position:relative;z-index:11}
+.doc-card{background:var(--card);border:1px solid var(--bd);border-radius:var(--rm);padding:25px;transition:var(--tr);backdrop-filter:blur(10px);display:flex;align-items:flex-start;gap:15px;position:relative;overflow:hidden}
+.doc-card:hover{border-color:var(--acc);box-shadow:var(--sg);transform:translateY(-4px)}
+.doc-card::after{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--g1);opacity:0;transition:var(--tr)}
+.doc-card:hover::after{opacity:1}
+.doc-card-icon{width:45px;height:45px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem;background:var(--accG);color:var(--accL)}
+.doc-card-icon.pdf{background:rgba(231,76,60,.15);color:#e74c3c}
+.doc-card-icon.doc{background:rgba(0,119,181,.15);color:#0077b6}
+.doc-card-icon.txt{background:rgba(123,47,247,.15);color:var(--accL)}
+.doc-card-icon.img{background:rgba(46,204,113,.15);color:#2ecc71}
+.doc-card-icon.zip{background:rgba(243,156,18,.15);color:#f39c12}
+.doc-card-icon.other{background:rgba(139,139,139,.15);color:#888}
+.doc-card-info{flex:1;overflow:hidden}
+.doc-card-name{font-size:.95rem;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.doc-card-meta{font-size:.78rem;color:var(--t3);margin-bottom:8px}
+.doc-card-desc{color:var(--t2);font-size:.8rem;margin-bottom:10px;line-height:1.5;word-break:break-word}
+.doc-card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.doc-card-tag{padding:2px 8px;background:var(--accG);color:var(--accL);border-radius:var(--rf);font-size:.68rem;font-weight:500;cursor:default}
+.doc-card-actions{display:flex;gap:6px;flex-wrap:wrap}
+.doc-card-btn{padding:6px 12px;border-radius:var(--rs);font-size:.78rem;font-weight:500;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:4px;border:none}
+.doc-card-btn.download{background:var(--g2);color:#fff}
+.doc-card-btn.download:hover{box-shadow:var(--sg)}
+.doc-card-btn.view{background:var(--accG);color:var(--accL);border:1px solid var(--bd)}
+.doc-card-btn.view:hover{border-color:var(--acc)}
+.doc-card-btn.delete-doc{background:rgba(231,76,60,.1);color:var(--er);border:1px solid rgba(231,76,60,.2)}
+.doc-card-btn.delete-doc:hover{background:rgba(231,76,60,.2)}
+.doc-card-footer{padding-top:10px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:var(--t3)}
+
+.doc-empty{text-align:center;padding:60px 20px;color:var(--t3);grid-column:1/-1}
+.doc-empty i{font-size:4rem;margin-bottom:15px;display:block;opacity:.3}
+.doc-empty p{font-size:1rem;margin-bottom:5px}
+
+.doc-badge-private{position:absolute;top:15px;right:15px;background:rgba(231,76,60,.15);color:#e74c3c;padding:4px 10px;border-radius:var(--rf);font-size:.7rem;font-weight:600;z-index:12;backdrop-filter:blur(10px)}
+
+/* CLIPBOARD MODAL */
+.clipboard-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .3s ease}
+.clipboard-modal.active{opacity:1;visibility:visible}
+.clipboard-modal-content{background:var(--card);border:1px solid var(--bd);border-radius:var(--rl);padding:40px;max-width:600px;width:90%;text-align:center;transform:scale(.9);transition:transform .3s ease}
+.clipboard-modal.active .clipboard-modal-content{transform:scale(1)}
+.clipboard-file-name{font-family:'Orbitron',sans-serif;font-size:1.1rem;margin-bottom:15px;color:var(--accL)}
+.clipboard-file-preview{background:var(--bg1);border-radius:10px;padding:20px;margin-bottom:20px;max-height:400px;overflow-y:auto;font-size:.85rem;color:var(--t2);white-space:pre-wrap;word-break:break-all;text-align:left}
+.clipboard-close-btn{padding:10px 30px;background:var(--g1);color:#fff;border:none;border-radius:var(--rf);cursor:pointer;font-size:.9rem;font-weight:600}
 
 /* CERTS */
 .certs-section{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
@@ -456,10 +573,11 @@ section{padding:60px 20px}
 .viz-bar{width:4px!important}
 .hero-stats{gap:20px}
 .newsletter-form{flex-direction:column}
-.share-grid{grid-template-columns:1fr}
+.share-grid,.doc-grid{grid-template-columns:1fr}
 .share-tabs{gap:3px}
-.share-tab{padding:8px 14px;font-size:.78rem}
+.share-tab,.nav-links a{font-size:.78rem;padding:8px 14px}
 .share-stat{min-width:100px;padding:14px 16px}
+.doc-lock-modal{padding:30px 20px}
 }
 @media(max-width:480px){
 .hero h1{font-size:2rem}
@@ -512,6 +630,7 @@ section{padding:60px 20px}
 <li><a href="#radio" class="nav-link" data-section="radio">Rádio</a></li>
 <li><a href="#hobbies" class="nav-link" data-section="hobbies">Hobbies</a></li>
 <li><a href="#compartilhar" class="nav-link" data-section="compartilhar">📁 Compartilhar</a></li>
+<li><a href="#documentos" class="nav-link" data-section="documentos">🔒 Documentos</a></li>
 <li><a href="#links" class="nav-link" data-section="links">Links</a></li>
 <li><a href="#contato" class="nav-link" data-section="contato">Contato</a></li>
 <li><button class="theme-toggle" id="theme-toggle" aria-label="Alternar tema"><i class="fas fa-moon" id="theme-icon"></i></button></li>
@@ -712,8 +831,6 @@ section{padding:60px 20px}
 <button class="share-tab" data-tab="meus"><i class="fas fa-folder-open"></i> Meus Arquivos</button>
 <button class="share-tab" data-tab="compartilhados"><i class="fas fa-share-alt"></i> Compartilhados</button>
 </div>
-
-<!-- Panel Enviar -->
 <div class="share-panel active" id="panel-enviar">
 <div class="share-upload-box" id="share-upload-box">
 <i class="fas fa-cloud-upload-alt"></i>
@@ -728,8 +845,6 @@ section{padding:60px 20px}
 </div>
 <div class="file-preview-list" id="share-file-preview-list"></div>
 </div>
-
-<!-- Panel Meus Arquivos -->
 <div class="share-panel" id="panel-meus">
 <div class="share-stats">
 <div class="share-stat"><div class="s-num" id="stat-total">0</div><div class="s-lbl">Total</div></div>
@@ -743,8 +858,6 @@ section{padding:60px 20px}
 <small>Faça upload na aba "Enviar" para começar!</small>
 </div>
 </div>
-
-<!-- Panel Compartilhados -->
 <div class="share-panel" id="panel-compartilhados">
 <div class="share-stats">
 <div class="share-stat"><div class="s-num" id="stat-shared">0</div><div class="s-lbl">Compartilhados</div></div>
@@ -756,6 +869,68 @@ section{padding:60px 20px}
 <p>Nenhum arquivo compartilhado ainda</p>
 <small>Envie um arquivo e gere um link público!</small>
 </div>
+</div>
+</div>
+</section>
+
+<!-- =============================================
+     MEU DOCUMENTOS (SEÇÃO COM SENHA)
+     ============================================= -->
+<section id="documentos" class="documents-section">
+<div class="doc-lock-overlay" id="doc-lock-overlay">
+<div class="doc-lock-modal" id="doc-lock-modal">
+<div class="lock-icon"><i class="fas fa-lock"></i></div>
+<div class="lock-modal-context">
+<h3 style="font-family:'Orbitron',sans-serif;font-size:1.3rem;margin-bottom:10px;">Área Restrita</h3>
+<p style="color:var(--t2);font-size:.95rem;">Digite a senha para acessar seus documentos privados</p>
+<p style="color:var(--t3);font-size:.8rem;margin-top:12px;">Dica: A senha é case-sensitive</p>
+</div>
+<div class="lock-password-row">
+<input type="password" id="doc-password-input" placeholder="••••••••" autocomplete="off">
+<button class="lock-toggle-pw" id="doc-toggle-pw" title="Mostrar/Ocultar senha"><i class="fas fa-eye"></i></button>
+</div>
+<div class="lock-error" id="doc-lock-error"></div>
+<button class="lock-btn" id="doc-lock-btn">Desbloquear <i class="fas fa-arrow-right"></i></button>
+<div class="lock-attempts" id="doc-attempts"></div>
+</div>
+</div>
+
+<div class="doc-header" id="doc-header" style="display:none">
+<div class="section-header fade-in">
+<span class="label">Privado</span>
+<h2>Meus <span class="gx">Documentos</span></h2>
+<p>Seus arquivos privados, protegidos por senha</p>
+</div>
+</div>
+
+<div class="documents-container" id="doc-container">
+<div class="document-stats" id="doc-stats" style="display:none">
+<div class="doc-stat"><div class="d-num" id="doc-count">0</div><div class="d-lbl">Documentos</div></div>
+<div class="doc-stat"><div class="d-num" id="doc-total-size">0 KB</div><div class="d-lbl">Espaço usado</div></div>
+<div class="doc-stat"><div class="d-num" id="doc-views">0</div><div class="d-lbl">Visualizações</div></div>
+</div>
+
+<div class="doc-upload-area" id="doc-upload-area">
+<i class="fas fa-cloud-upload-alt"></i>
+<h3>Arraste ou clique para enviar documentos</h3>
+<p>Arquivos privados — apenas você vê</p>
+<small>Qualquer tipo — até 20MB cada</small>
+<input type="file" id="doc-file-input" multiple accept="*/*">
+</div>
+<div class="upload-progress" id="doc-upload-progress">
+<div class="upload-progress-bar"><div class="upload-progress-fill" id="doc-upload-progress-fill"></div></div>
+<div class="upload-progress-text" id="doc-upload-progress-text">Processando...</div>
+</div>
+
+<div class="doc-grid" id="doc-grid"></div>
+<div class="doc-empty" id="doc-empty">
+<i class="fas fa-folder"></i>
+<p>Nenhum documento privado ainda</p>
+<small>Faça upload acima para começar!</small>
+</div>
+
+<div style="text-align:center;margin-top:20px;position:relative;z-index:11">
+<button class="btn-danger" id="doc-logout-btn" style="display:none"><i class="fas fa-sign-out-alt"></i> Bloquear Acesso</button>
 </div>
 </div>
 </section>
@@ -898,7 +1073,7 @@ let mx = 0, my = 0, rx = 0, ry = 0;
 document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cDot.style.left = (mx-4)+'px'; cDot.style.top = (my-4)+'px'; });
 function animCursor() { rx += (mx-rx)*.12; ry += (my-ry)*.12; cRing.style.left = (rx-17.5)+'px'; cRing.style.top = (ry-17.5)+'px'; requestAnimationFrame(animCursor); }
 animCursor();
-const hoverEls = document.querySelectorAll('a, button, .skill-card, .hobby-card, .link-card, .timeline-content, .contact-card, .project-card, .filter-btn, .preset-btn, .theme-toggle, .nav-logo, .testimonial-card, .about-stat, .share-tab, .share-card-btn, .file-preview-item');
+const hoverEls = document.querySelectorAll('a, button, .skill-card, .hobby-card, .link-card, .timeline-content, .contact-card, .project-card, .filter-btn, .preset-btn, .theme-toggle, .nav-logo, .testimonial-card, .about-stat, .share-tab, .share-card-btn, .file-preview-item, .doc-card-btn, .doc-stat');
 hoverEls.forEach(el => { el.addEventListener('mouseenter', () => cRing.classList.add('hover')); el.addEventListener('mouseleave', () => cRing.classList.remove('hover')); });
 if ('ontouchstart' in window || navigator.maxTouchPoints > 0) { cDot.style.display = 'none'; cRing.style.display = 'none'; }
 
@@ -1025,7 +1200,7 @@ setTimeout(typeAnim, ts);
 typeAnim();
 
 // =============================================
-// SCROLL ANIMATIONS (IntersectionObserver)
+// SCROLL ANIMATIONS
 // =============================================
 const obsOpts = { threshold: .1, rootMargin: '0px 0px -50px 0px' };
 const obs = new IntersectionObserver(entries => {
@@ -1039,7 +1214,6 @@ if (e.target.classList.contains('num')) animateCounter(e.target);
 }, obsOpts);
 document.querySelectorAll('.fade-up,.fade-left,.fade-right,.fade-in,.skill-bar-fill,.num[data-target]').forEach(el => obs.observe(el));
 
-// About stats observer
 document.querySelectorAll('.about-stat .num').forEach(el => {
 new IntersectionObserver(entries => {
 if (entries[0].isIntersecting && !animated.has(el)) {
@@ -1162,7 +1336,6 @@ const statPublicados = document.getElementById('stat-publicados');
 const statShared = document.getElementById('stat-shared');
 const statDownloads = document.getElementById('stat-downloads');
 
-// Tabs
 shareTabs.forEach(tab => {
 tab.addEventListener('click', () => {
 shareTabs.forEach(t => t.classList.remove('active'));
@@ -1201,30 +1374,28 @@ return d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR', {hour
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
 
-// Upload progress simulation
-function simulateUpload(callback) {
-uploadProgress.classList.add('active');
-uploadProgressFill.style.width = '0%';
-uploadProgressText.textContent = 'Iniciando...';
+function simulateUpload(progressFill, progressText, progressEl, callback) {
+progressEl.classList.add('active');
+progressFill.style.width = '0%';
+progressText.textContent = 'Iniciando...';
 let p = 0;
 const iv = setInterval(() => {
 p += Math.random() * 20 + 8;
-if (p > 100) p = 100; // ✅ Corrigido: antes era 90
-uploadProgressFill.style.width = p + '%';
-uploadProgressText.textContent = 'Enviando... ' + Math.round(p) + '%';
+if (p > 100) p = 100;
+progressFill.style.width = p + '%';
+progressText.textContent = 'Enviando... ' + Math.round(p) + '%';
 if (p >= 100) {
 clearInterval(iv);
-uploadProgressFill.style.width = '100%';
-uploadProgressText.textContent = '✅ Upload completo!';
+progressFill.style.width = '100%';
+progressText.textContent = '✅ Upload completo!';
 setTimeout(() => {
-uploadProgress.classList.remove('active');
+progressEl.classList.remove('active');
 if (callback) callback();
 }, 800);
 }
 }, 200);
 }
 
-// Drag & drop
 shareUploadBox.addEventListener('dragover', e => { e.preventDefault(); shareUploadBox.classList.add('dragover'); });
 shareUploadBox.addEventListener('dragleave', () => shareUploadBox.classList.remove('dragover'));
 shareUploadBox.addEventListener('drop', e => {
@@ -1234,41 +1405,27 @@ shareFileInput.files = e.dataTransfer.files;
 shareFileInput.dispatchEvent(new Event('change'));
 });
 
-// File input change
 shareFileInput.addEventListener('change', () => {
 const files = Array.from(shareFileInput.files);
 if (files.length === 0) return;
 
-simulateUpload(() => {
+simulateUpload(uploadProgressFill, uploadProgressText, uploadProgress, () => {
 let shareableFiles = JSON.parse(localStorage.getItem('shareable_files') || '[]');
-
 files.forEach(file => {
-if (file.size > 50 * 1024 * 1024) {
-alert('Arquivo "' + file.name + '" excede o limite de 50MB!');
-return;
-}
+if (file.size > 50 * 1024 * 1024) { alert('Arquivo "' + file.name + '" excede o limite de 50MB!'); return; }
 const reader = new FileReader();
 reader.onload = function(e) {
 const id = uid();
-const fileData = {
-id: id,
-name: file.name,
-size: file.size,
-type: file.type,
-data: e.target.result,
-date: new Date().toISOString(),
-author: 'Vitor Lima',
-downloads: 0,
-shared: false
-};
-shareableFiles.push(fileData);
-addSharePreview(fileData);
+shareableFiles.push({
+id, name: file.name, size: file.size, type: file.type,
+data: e.target.result, date: new Date().toISOString(),
+author: 'Vitor Lima', downloads: 0, shared: false
+});
+addSharePreview(shareableFiles[shareableFiles.length - 1]);
 };
 reader.readAsDataURL(file);
 });
-
 shareFileInput.value = '';
-
 setTimeout(() => {
 localStorage.setItem('shareable_files', JSON.stringify(shareableFiles));
 updateShareStats();
@@ -1289,9 +1446,7 @@ div.innerHTML = `
 <button class="file-remove" title="Remover">&times;</button>
 `;
 div.querySelector('.file-remove').addEventListener('click', () => {
-removeShareFile(f.id);
-div.remove();
-updateShareStats();
+removeShareFile(f.id); div.remove(); updateShareStats();
 });
 sharePreviewList.appendChild(div);
 }
@@ -1311,16 +1466,10 @@ let file = arr.find(f => f.id === id);
 if (!file) return;
 file.shared = true;
 localStorage.setItem('shareable_files', JSON.stringify(arr));
-
 let sharedLog = JSON.parse(localStorage.getItem('shared_log') || '[]');
-if (!sharedLog.find(l => l.id === id)) {
-sharedLog.push({ id: file.id, name: file.name, link: getShareLink(id), date: new Date().toISOString(), downloads: 0 });
-}
+if (!sharedLog.find(l => l.id === id)) sharedLog.push({ id: file.id, name: file.name, link: getShareLink(id), date: new Date().toISOString(), downloads: 0 });
 localStorage.setItem('shared_log', JSON.stringify(sharedLog));
-
-renderMeusArquivos();
-renderCompartilhados();
-updateShareStats();
+renderMeusArquivos(); renderCompartilhados(); updateShareStats();
 showToast('✅ Arquivo publicado! Link copiado.');
 copyLink(id);
 }
@@ -1331,14 +1480,10 @@ let file = arr.find(f => f.id === id);
 if (!file) return;
 file.shared = false;
 localStorage.setItem('shareable_files', JSON.stringify(arr));
-
 let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
 log = log.filter(l => l.id !== id);
 localStorage.setItem('shared_log', JSON.stringify(log));
-
-renderMeusArquivos();
-renderCompartilhados();
-updateShareStats();
+renderMeusArquivos(); renderCompartilhados(); updateShareStats();
 showToast('🔒 Arquivo despublicado.');
 }
 
@@ -1350,35 +1495,23 @@ function downloadSharedFile(id) {
 let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
 let file = arr.find(f => f.id === id);
 if (!file) { alert('Arquivo não encontrado.'); return; }
-
-// Increment downloads
-let sharedLog = JSON.parse(localStorage.getItem('shared_log') || '[]');
-let logEntry = sharedLog.find(l => l.id === id);
-if (logEntry) { logEntry.downloads = (logEntry.downloads || 0) + 1; localStorage.setItem('shared_log', JSON.stringify(sharedLog)); }
-
-// Trigger download
+let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
+let logEntry = log.find(l => l.id === id);
+if (logEntry) { logEntry.downloads = (logEntry.downloads || 0) + 1; localStorage.setItem('shared_log', JSON.stringify(log)); }
 try {
 let byteChars = atob(file.data.split(',')[1]);
 let byteNumbers = new Array(byteChars.length);
 for (let i = 0; i < byteChars.length; i++) byteNumbers[i] = byteChars.charCodeAt(i);
-let byteArray = new Uint8Array(byteNumbers);
-let blob = new Blob([byteArray], { type: file.type || 'application/octet-stream' });
+let blob = new Blob([new Uint8Array(byteNumbers)], { type: file.type || 'application/octet-stream' });
 let url = URL.createObjectURL(blob);
 let a = document.createElement('a');
-a.href = url;
-a.download = file.name;
-document.body.appendChild(a);
-a.click();
-document.body.removeChild(a);
-URL.revokeObjectURL(url);
+a.href = url; a.download = file.name;
+document.body.appendChild(a); a.click();
+document.body.removeChild(a); URL.revokeObjectURL(url);
 } catch(e) {
-// Fallback: open base64 in new tab
 let link = document.createElement('a');
-link.href = file.data;
-link.download = file.name;
-link.click();
+link.href = file.data; link.download = file.name; link.click();
 }
-
 updateShareStats();
 showToast('📥 Download: ' + file.name);
 }
@@ -1386,22 +1519,18 @@ showToast('📥 Download: ' + file.name);
 function deleteShareFile(id) {
 if (!confirm('Tem certeza que deseja deletar este arquivo?')) return;
 removeShareFile(id);
-renderMeusArquivos();
-renderCompartilhados();
-updateShareStats();
+renderMeusArquivos(); renderCompartilhados(); updateShareStats();
 showToast('🗑️ Arquivo deletado.');
 }
 
 function copyLink(id) {
 let text = getShareLink(id);
-if (navigator.clipboard) {
-navigator.clipboard.writeText(text).then(flashCopied);
-} else {
+if (navigator.clipboard) { navigator.clipboard.writeText(text).then(flashCopied); }
+else {
 let ta = document.createElement('textarea');
 ta.value = text; document.body.appendChild(ta);
 ta.select(); document.execCommand('copy');
-document.body.removeChild(ta);
-flashCopied();
+document.body.removeChild(ta); flashCopied();
 }
 }
 
@@ -1418,8 +1547,7 @@ t.id = 'share-toast';
 t.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--ok);color:#fff;padding:14px 28px;border-radius:var(--rm);font-weight:600;z-index:10000;box-shadow:var(--sgs);transition:opacity .3s;text-align:center;max-width:90%;font-size:.9rem;';
 document.body.appendChild(t);
 }
-t.textContent = msg;
-t.style.opacity = '1';
+t.textContent = msg; t.style.opacity = '1';
 clearTimeout(t._timer);
 t._timer = setTimeout(() => t.style.opacity = '0', 3000);
 }
@@ -1430,14 +1558,12 @@ let totalSize = arr.reduce((s, f) => s + (f.size || 0), 0);
 let sharedCount = arr.filter(f => f.shared).length;
 let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
 let totalDowns = log.reduce((s, l) => s + (l.downloads || 0), 0);
-
 if (statTotal) statTotal.textContent = arr.length;
 if (statSize) statSize.textContent = formatSize(totalSize);
 if (statFiles) statFiles.textContent = arr.length;
 if (statPublicados) statPublicados.textContent = sharedCount;
 if (statShared) statShared.textContent = sharedCount;
 if (statDownloads) statDownloads.textContent = totalDowns;
-
 if (meusVazio) meusVazio.style.display = arr.length === 0 ? 'block' : 'none';
 if (meusArquivosGrid) meusArquivosGrid.style.display = arr.length === 0 ? 'none' : 'grid';
 }
@@ -1445,15 +1571,8 @@ if (meusArquivosGrid) meusArquivosGrid.style.display = arr.length === 0 ? 'none'
 function renderMeusArquivos() {
 let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
 meusArquivosGrid.innerHTML = '';
-
-if (arr.length === 0) {
-meusVazio.style.display = 'block';
-meusArquivosGrid.style.display = 'none';
-return;
-}
-meusVazio.style.display = 'none';
-meusArquivosGrid.style.display = 'grid';
-
+if (arr.length === 0) { meusVazio.style.display = 'block'; meusArquivosGrid.style.display = 'none'; return; }
+meusVazio.style.display = 'none'; meusArquivosGrid.style.display = 'grid';
 arr.reverse().forEach(f => {
 let extClass = getFileIconClass(f.name);
 let card = document.createElement('div');
@@ -1491,21 +1610,13 @@ function renderCompartilhados() {
 let arr = JSON.parse(localStorage.getItem('shareable_files') || '[]');
 let shared = arr.filter(f => f.shared);
 compartilhadosGrid.innerHTML = '';
-
-if (shared.length === 0) {
-compartilhadosVazio.style.display = 'block';
-compartilhadosGrid.style.display = 'none';
-return;
-}
-compartilhadosVazio.style.display = 'none';
-compartilhadosGrid.style.display = 'grid';
-
+if (shared.length === 0) { compartilhadosVazio.style.display = 'block'; compartilhadosGrid.style.display = 'none'; return; }
+compartilhadosVazio.style.display = 'none'; compartilhadosGrid.style.display = 'grid';
 shared.forEach(f => {
 let log = JSON.parse(localStorage.getItem('shared_log') || '[]');
 let logEntry = log.find(l => l.id === f.id);
 let downs = logEntry ? (logEntry.downloads || 0) : 0;
 let extClass = getFileIconClass(f.name);
-
 let card = document.createElement('div');
 card.className = 'share-card';
 card.innerHTML = `
@@ -1550,6 +1661,318 @@ return map[ext] || map.default;
 }
 
 // =============================================
+// MEU DOCUMENTOS (SENHA)
+// =============================================
+const docPassword = "vitor2025"; // ⚠️ Mude esta senha! Default: vitor2025
+const docAttempts = localStorage.getItem('doc_attempts') || 0;
+const docLockOverlay = document.getElementById('doc-lock-overlay');
+const docLockModal = document.getElementById('doc-lock-modal');
+const docPasswordInput = document.getElementById('doc-password-input');
+const docTogglePw = document.getElementById('doc-toggle-pw');
+const docLockError = document.getElementById('doc-lock-error');
+const docLockBtn = document.getElementById('doc-lock-btn');
+const docAttemptsEl = document.getElementById('doc-attempts');
+const docHeader = document.getElementById('doc-header');
+const docContainer = document.getElementById('doc-container');
+const docLockBtnLogout = document.getElementById('doc-logout-btn');
+
+const docFileInput = document.getElementById('doc-file-input');
+const docUploadArea = document.getElementById('doc-upload-area');
+const docUploadProgress = document.getElementById('doc-upload-progress');
+const docUploadProgressFill = document.getElementById('doc-upload-progress-fill');
+const docUploadProgressText = document.getElementById('doc-upload-progress-text');
+const docGrid = document.getElementById('doc-grid');
+const docEmpty = document.getElementById('doc-empty');
+const docCount = document.getElementById('doc-count');
+const docTotalSize = document.getElementById('doc-total-size');
+const docViews = document.getElementById('doc-views');
+
+let docUnlocked = localStorage.getItem('doc_unlocked') === 'true';
+let showPassword = false;
+
+// Check if already unlocked
+if (docUnlocked) {
+showDocuments();
+} else {
+docLockOverlay.classList.remove('hidden');
+docAttemptsEl.textContent = docAttempts > 0 ? `Tentativas incorretas: ${docAttempts}` : '';
+}
+
+// Password visibility toggle
+docTogglePw.addEventListener('click', () => {
+showPassword = !showPassword;
+docPasswordInput.type = showPassword ? 'text' : 'password';
+docTogglePw.innerHTML = showPassword ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+});
+
+// Unlock on Enter
+docPasswordInput.addEventListener('keypress', (e) => {
+if (e.key === 'Enter') docLockBtn.click();
+});
+
+// Unlock button
+docLockBtn.addEventListener('click', () => {
+const pw = docPasswordInput.value;
+if (pw === docPassword) {
+// Success
+docUnlocked = true;
+localStorage.setItem('doc_unlocked', 'true');
+localStorage.setItem('doc_attempts', '0');
+docLockOverlay.classList.add('hidden');
+
+// Success animation
+const successEl = document.createElement('div');
+successEl.className = 'doc-lock-success show';
+successEl.innerHTML = '<i class="fas fa-check-circle" style="font-size:3rem;margin-bottom:15px;display:block"></i>Acesso Liberado!';
+document.body.appendChild(successEl);
+setTimeout(() => {
+successEl.classList.remove('show');
+setTimeout(() => successEl.remove(), 400);
+}, 1500);
+
+showDocuments();
+} else {
+// Wrong password
+const attempts = parseInt(localStorage.getItem('doc_attempts') || '0') + 1;
+localStorage.setItem('doc_attempts', attempts.toString());
+docPasswordInput.value = '';
+docLockError.textContent = '❌ Senha incorreta! Tente novamente.';
+docLockModal.classList.remove('lock-animate-shake');
+void docLockModal.offsetWidth; // force reflow
+docLockModal.classList.add('lock-animate-shake');
+docAttemptsEl.textContent = `Tentativas incorretas: ${attempts}`;
+
+if (attempts >= 5) {
+docLockError.textContent = '🔒 Muitas tentativas! Tente novamente mais tarde.';
+docLockBtn.disabled = true;
+docLockBtn.textContent = 'Bloqueado';
+setTimeout(() => {
+let a = parseInt(localStorage.getItem('doc_attempts') || '0');
+if (a >= 5) {
+localStorage.setItem('doc_lock_until', (Date.now() + 300000).toString()); // 5 min lock
+}
+}, 100);
+}
+}
+});
+
+// Logout
+docLockBtnLogout.addEventListener('click', () => {
+docUnlocked = false;
+localStorage.removeItem('doc_unlocked');
+docLockOverlay.classList.remove('hidden');
+docHeader.style.display = 'none';
+docContainer.style.display = 'none';
+docLockBtnLogout.style.display = 'none';
+docLockBtn.disabled = false;
+docLockBtn.textContent = 'Desbloquear \u2192';
+docLockError.textContent = '';
+docPasswordInput.value = '';
+docPasswordInput.type = 'password';
+showPassword = false;
+docTogglePw.innerHTML = '<i class="fas fa-eye"></i>';
+docAttemptsEl.textContent = '';
+});
+
+function showDocuments() {
+docLockOverlay.classList.add('hidden');
+docHeader.style.display = 'block';
+docContainer.style.display = 'block';
+docLockBtnLogout.style.display = 'inline-flex';
+renderDocuments();
+}
+
+function renderDocuments() {
+let docs = JSON.parse(localStorage.getItem('private_docs') || '[]');
+let views = parseInt(localStorage.getItem('doc_views') || '0');
+
+docCount.textContent = docs.length;
+docTotalSize.textContent = formatSize(docs.reduce((s, d) => s + (d.size || 0), 0));
+docViews.textContent = views;
+
+docGrid.innerHTML = '';
+if (docs.length === 0) {
+docEmpty.style.display = 'block';
+docGrid.style.display = 'none';
+return;
+}
+docEmpty.style.display = 'none';
+docGrid.style.display = 'grid';
+
+docs.reverse().forEach((d, idx) => {
+let extClass = getFileIconClass(d.name);
+let realIdx = docs.length - 1 - idx;
+let card = document.createElement('div');
+card.className = 'doc-card';
+card.innerHTML = `
+<div class="doc-card-icon ${extClass}"><i class="${getFileIcon(d.name)}"></i></div>
+<div class="doc-card-info">
+<h3 class="doc-card-name">${d.name}</h3>
+<div class="doc-card-meta">${formatSize(d.size)} • ${formatDate(d.date)}</div>
+<div class="doc-card-desc">${d.desc || 'Sem descrição'}</div>
+<div class="doc-card-tags">
+<span class="doc-card-tag">${extClass.toUpperCase()}</span>
+<span class="doc-card-tag">PRIVADO 🔒</span>
+${d.tags ? d.tags.map(t => `<span class="doc-card-tag">${t}</span>`).join('') : ''}
+</div>
+<div class="doc-card-actions">
+<button class="doc-card-btn download" onclick="downloadPrivateDoc(${realIdx})"><i class="fas fa-download"></i> Baixar</button>
+<button class="doc-card-btn view" onclick="viewPrivateDoc(${realIdx})"><i class="fas fa-eye"></i> Visualizar</button>
+<button class="doc-card-btn delete-doc" onclick="deletePrivateDoc(${realIdx})"><i class="fas fa-trash"></i></button>
+</div>
+</div>
+<div class="doc-card-footer">
+<small>ID: ${d.id.substr(0,8)}</small>
+<small>🔒 Protegido</small>
+</div>
+`;
+docGrid.appendChild(card);
+});
+}
+
+function addDocPreview(f, desc, tags) {
+let docs = JSON.parse(localStorage.getItem('private_docs') || '[]');
+const id = uid();
+docs.push({
+id, name: f.name, size: f.size, type: f.type,
+data: f.data, date: new Date().toISOString(),
+desc: desc || '', tags: tags || []
+});
+localStorage.setItem('private_docs', JSON.stringify(docs));
+renderDocuments();
+
+let views = parseInt(localStorage.getItem('doc_views') || '0');
+localStorage.setItem('doc_views', (views + 1).toString());
+docCount.textContent = docs.length;
+docTotalSize.textContent = formatSize(docs.reduce((s, d) => s + (d.size || 0), 0));
+docViews.textContent = views + 1;
+}
+
+function getDocFileIconClass(name) {
+const ext = name.split('.').pop().toLowerCase();
+return ['pdf','doc','docx','txt','csv','xlsx','xls'].includes(ext) ? 'doc' :
+['png','jpg','jpeg','gif','bmp','webp','svg'].includes(ext) ? 'img' :
+['mp4','avi','mov','mkv','webm','wmv'].includes(ext) ? 'vid' :
+['zip','rar','7z','tar','gz'].includes(ext) ? 'zip' : 'other';
+}
+
+function downloadPrivateDoc(idx) {
+let docs = JSON.parse(localStorage.getItem('private_docs') || '[]');
+let doc = docs[idx];
+if (!doc) return;
+try {
+let byteChars = atob(doc.data.split(',')[1]);
+let byteNumbers = new Array(byteChars.length);
+for (let i = 0; i < byteChars.length; i++) byteNumbers[i] = byteChars.charCodeAt(i);
+let blob = new Blob([new Uint8Array(byteNumbers)], { type: doc.type || 'application/octet-stream' });
+let url = URL.createObjectURL(blob);
+let a = document.createElement('a');
+a.href = url; a.download = doc.name;
+document.body.appendChild(a); a.click();
+document.body.removeChild(a); URL.revokeObjectURL(url);
+} catch(e) {
+let link = document.createElement('a');
+link.href = doc.data; link.download = doc.name; link.click();
+}
+showToast('📥 Download: ' + doc.name);
+}
+
+function viewPrivateDoc(idx) {
+let docs = JSON.parse(localStorage.getItem('private_docs') || '[]');
+let doc = docs[idx];
+if (!doc) return;
+
+let modal = document.getElementById('clipboard-modal');
+if (!modal) {
+modal = document.createElement('div');
+modal.className = 'clipboard-modal';
+modal.id = 'clipboard-modal';
+modal.innerHTML = `
+<div class="clipboard-modal-content">
+<div class="clipboard-file-name" id="clip-modal-name"></div>
+<div style="margin-bottom:15px">
+<button class="doc-card-btn download" onclick="downloadFromModal()"><i class="fas fa-download"></i> Baixar</button>
+<button class="doc-card-btn delete-share" onclick="closeModal()"><i class="fas fa-times"></i> Fechar</button>
+</div>
+<div class="clipboard-file-preview" id="clip-modal-content"></div>
+</div>
+`;
+document.body.appendChild(modal);
+window.downloadFromModal = function() {
+if (currentViewDoc) downloadPrivateDoc(currentViewDoc._idx);
+};
+window.closeModal = function() {
+modal.classList.remove('active');
+currentViewDoc = null;
+};
+}
+
+let views = parseInt(localStorage.getItem('doc_views') || '0');
+localStorage.setItem('doc_views', (views + 1).toString());
+docViews.textContent = views + 1;
+
+currentViewDoc = doc;
+currentViewDoc._idx = idx;
+
+document.getElementById('clip-modal-name').textContent = doc.name;
+let content = document.getElementById('clip-modal-content');
+
+// Try to display the file based on type
+let html = '';
+if (doc.type && doc.type.startsWith('image/')) {
+html = `<img src="${doc.data}" style="max-width:100%;max-height:60vh;border-radius:8px;">`;
+} else if (doc.type && doc.type.startsWith('text/')) {
+try { html = `<pre style="white-space:pre-wrap;word-break:break-all;">${atob(doc.data.split(',')[1])}</pre>`; }
+catch(e) { html = `<p style="color:var(--t2)">Arquivo binário — use o botão Baixar</p>`; }
+} else if (doc.type && doc.type.startsWith('application/pdf')) {
+html = `<iframe src="${doc.data}" style="width:100%;height:50vh;border:none;border-radius:8px;" type="application/pdf"></iframe>`;
+} else {
+html = `<div style="text-align:center;padding:40px;"><i class="fas fa-file" style="font-size:4rem;opacity:.3;margin-bottom:15px;display:block;color:var(--t3)"></i><p style="color:var(--t2)">Pré-visualização não disponível.<br>Use o botão Baixar para abrir o arquivo.</p></div>`;
+}
+content.innerHTML = html;
+modal.classList.add('active');
+}
+
+function deletePrivateDoc(idx) {
+if (!confirm('Tem certeza que deseja deletar este documento?')) return;
+let docs = JSON.parse(localStorage.getItem('private_docs') || '[]');
+docs.splice(idx, 1);
+localStorage.setItem('private_docs', JSON.stringify(docs));
+renderDocuments();
+showToast('🗑️ Documento deletado.');
+}
+
+// Doc upload
+function docUploadFiles(files) {
+simulateUpload(docUploadProgressFill, docUploadProgressText, docUploadProgress, () => {
+Array.from(files).forEach(file => {
+if (file.size > 20 * 1024 * 1024) { alert('Arquivo "' + file.name + '" excede o limite de 20MB!'); return; }
+const reader = new FileReader();
+reader.onload = function(e) {
+addDocPreview({
+name: file.name,
+size: file.size,
+type: file.type,
+data: e.target.result
+});
+};
+reader.readAsDataURL(file);
+});
+docFileInput.value = '';
+});
+}
+
+docFileInput.addEventListener('change', () => { docUploadFiles(docFileInput.files); });
+
+docUploadArea.addEventListener('dragover', e => { e.preventDefault(); docUploadArea.classList.add('dragover'); });
+docUploadArea.addEventListener('dragleave', () => docUploadArea.classList.remove('dragover'));
+docUploadArea.addEventListener('drop', e => {
+e.preventDefault();
+docUploadArea.classList.remove('dragover');
+docUploadFiles(e.dataTransfer.files);
+});
+
+// =============================================
 // CONTACT FORM
 // =============================================
 function handleContact(e) {
@@ -1558,13 +1981,10 @@ const name = document.getElementById('contact-name').value.trim();
 const assunto = document.getElementById('contact-assunto').value.trim();
 const message = document.getElementById('contact-message').value.trim();
 const fm = document.getElementById('form-message');
-
 if (!name || !message) {
 fm.textContent = '⚠️ Preencha pelo menos o Nome e a Mensagem.';
-fm.className = 'form-message error'; fm.style.display = 'block';
-return;
+fm.className = 'form-message error'; fm.style.display = 'block'; return;
 }
-
 let corpo = `Nome: ${name}\nAssunto: ${assunto || '(sem assunto)'}\nMensagem: ${message}\n`;
 if (uploadedFiles.length > 0) {
 corpo += `\nArquivos anexados (${uploadedFiles.length}):\n`;
@@ -1572,23 +1992,18 @@ uploadedFiles.forEach(f => { corpo += `  - ${f.name} (${formatSize(f.size)})\n`;
 corpo += `\nOs arquivos foram salvos no localStorage e podem ser acessados na seção "Compartilhar Arquivos".`;
 }
 corpo += `\n---\nEnviado via portfólio de Vitor Lima`;
-
 const emailBody = encodeURIComponent(corpo.trim());
 const emailSubject = encodeURIComponent(assunto || 'Mensagem do Portfólio');
 const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=admvitordias@gmail.com&su=${emailSubject}&body=${emailBody}`;
-
-fm.innerHTML = '📨 <strong>Preparando envio...</strong><br><small>Seu Gmail será aberto automaticamente com os dados preenchidos. Clique em "Enviar" para finalizar.</small>';
+fm.innerHTML = '📨 <strong>Preparando envio...</strong><br><small>Seu Gmail será aberto automaticamente. Clique em "Enviar" para finalizar.</small>';
 fm.className = 'form-message success'; fm.style.display = 'block';
-
 let msgs = JSON.parse(localStorage.getItem('contact_messages') || '[]');
 msgs.push({ name, assunto, message, files: uploadedFiles.length, date: new Date().toISOString() });
 localStorage.setItem('contact_messages', JSON.stringify(msgs));
-
 let analytics = JSON.parse(localStorage.getItem('analytics') || '{}');
 analytics.contacts_sent = (analytics.contacts_sent || 0) + 1;
 analytics.last_contact = new Date().toISOString();
 localStorage.setItem('analytics', JSON.stringify(analytics));
-
 setTimeout(() => {
 window.open(gmailUrl, '_blank');
 document.getElementById('contact-form').reset();
@@ -1597,7 +2012,6 @@ filePreviewList.innerHTML = '';
 uploadedFiles = [];
 setTimeout(() => fm.style.display = 'none', 5000);
 }, 2000);
-
 return false;
 }
 
@@ -1605,9 +2019,7 @@ document.getElementById('contact-message').addEventListener('input', function() 
 document.getElementById('char-count').textContent = this.value.length;
 });
 
-// =============================================
-// CONTACT FILE UPLOAD
-// =============================================
+// Contact file upload
 const fileInput = document.getElementById('file-input');
 const filePreviewList = document.getElementById('file-preview-list');
 const uploadArea = document.getElementById('file-upload-area');
@@ -1616,10 +2028,7 @@ let uploadedFiles = [];
 fileInput.addEventListener('change', () => {
 const files = Array.from(fileInput.files);
 files.forEach(file => {
-if (file.size > 20 * 1024 * 1024) {
-alert('Arquivo "' + file.name + '" excede o limite de 20MB!');
-return;
-}
+if (file.size > 20 * 1024 * 1024) { alert('Arquivo "' + file.name + '" excede o limite de 20MB!'); return; }
 const reader = new FileReader();
 reader.onload = function(e) {
 const fileData = { name: file.name, size: file.size, type: file.type, data: e.target.result, timestamp: new Date().toISOString() };
@@ -1645,7 +2054,6 @@ uploadedFiles = uploadedFiles.filter(f => f.name !== file.name);
 if (uploadedFiles.length === 0) filePreviewList.innerHTML = '';
 });
 filePreviewList.appendChild(div);
-
 uploadArea.style.borderColor = 'var(--ok)';
 setTimeout(() => { uploadArea.style.borderColor = ''; }, 1500);
 };
@@ -1662,7 +2070,6 @@ fileInput.files = e.dataTransfer.files;
 fileInput.dispatchEvent(new Event('change'));
 });
 
-// Load saved files on page load
 (function() {
 let saved = JSON.parse(localStorage.getItem('uploaded_files') || '[]');
 saved.slice(-5).reverse().forEach(f => {
@@ -1760,13 +2167,13 @@ localStorage.setItem('analytics', JSON.stringify(data));
 })();
 
 // =============================================
-// ONLINE/OFFLINE DETECTION
+// ONLINE/OFFLINE
 // =============================================
 window.addEventListener('online', () => { document.title = 'Vitor Lima - Portfólio'; });
 window.addEventListener('offline', () => { document.title = '⚠️ Sem conexão - Vitor Lima'; });
 
 // =============================================
-// CHECK URL FOR SHARE FILE
+// URL PARAM SHARE CHECK
 // =============================================
 (function() {
 const params = new URLSearchParams(window.location.search);
