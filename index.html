@@ -23,7 +23,6 @@ html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--acc) var(
 body{font-family:'Inter',sans-serif;background:var(--bg1);color:var(--t1);overflow-x:hidden;transition:background .5s,color .5s;line-height:1.6}
 body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 20% 50%,rgba(123,47,247,.03),transparent 50%),radial-gradient(circle at 80% 20%,rgba(255,47,149,.02),transparent 50%),radial-gradient(circle at 50% 80%,rgba(0,212,255,.02),transparent 50%);animation:bgPulse 15s ease-in-out infinite alternate;pointer-events:none;z-index:0}
 @keyframes bgPulse{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-2%,-1%) scale(1.05)}}
-.container{max-width:1200px;margin:0 auto;padding:0 20px}
 section{padding:100px 40px;position:relative;z-index:1}
 a{color:inherit;text-decoration:none}
 
@@ -112,9 +111,6 @@ a{color:inherit;text-decoration:none}
 .section-header h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.8rem,4vw,2.5rem);font-weight:900;margin-bottom:15px}
 .section-header .gx{background:var(--g1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .section-header p{color:var(--t2);font-size:1.05rem;max-width:600px;margin:0 auto}
-.section-divider{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:60px}
-.section-divider .line{width:60px;height:1px;background:var(--g1)}
-.section-divider .diamond{width:10px;height:10px;background:var(--acc);transform:rotate(45deg);box-shadow:0 0 10px var(--accG)}
 
 /* BUTTONS */
 .btn-primary{padding:15px 35px;background:var(--g1);color:#fff;border:none;border-radius:var(--rf);font-size:1rem;font-weight:600;cursor:pointer;transition:var(--tr);text-decoration:none;display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden;box-shadow:0 4px 15px var(--accG)}
@@ -125,6 +121,7 @@ a{color:inherit;text-decoration:none}
 .btn-secondary:hover{border-color:var(--acc);box-shadow:var(--sg);transform:translateY(-3px);background:var(--accG)}
 .btn-outline{padding:12px 28px;background:transparent;color:var(--accL);border:1px solid var(--acc);border-radius:var(--rf);font-size:.9rem;font-weight:600;cursor:pointer;transition:var(--tr);display:inline-flex;align-items:center;gap:8px}
 .btn-outline:hover{background:var(--acc);color:#fff;box-shadow:var(--sg)}
+.btn-sm{padding:10px 20px;font-size:.85rem;border-radius:var(--rm)}
 
 /* ABOUT */
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1200px;margin:0 auto;align-items:center}
@@ -282,6 +279,23 @@ a{color:inherit;text-decoration:none}
 .form-message.success{color:var(--ok);display:block;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3)}
 .form-message.error{color:var(--er);display:block;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3)}
 
+/* FILE UPLOAD */
+.file-upload-area{border:2px dashed var(--bd);border-radius:var(--rm);padding:40px;text-align:center;cursor:pointer;transition:var(--tr);margin-bottom:20px;background:var(--bg1);position:relative}
+.file-upload-area:hover,.file-upload-area.dragover{border-color:var(--acc);background:var(--accG);transform:scale(1.01)}
+.file-upload-area i{font-size:3rem;color:var(--accL);margin-bottom:15px;display:block}
+.file-upload-area p{color:var(--t2);font-size:.95rem}
+.file-upload-area small{color:var(--t3);font-size:.8rem}
+.file-upload-area input[type=file]{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.file-preview-list{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.file-preview-item{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:10px 15px;flex:1;min-width:200px;transition:var(--tr)}
+.file-preview-item:hover{border-color:var(--acc)}
+.file-preview-item .file-icon{font-size:1.5rem;color:var(--accL)}
+.file-preview-item .file-info{flex:1;overflow:hidden}
+.file-preview-item .file-name{font-size:.85rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-preview-item .file-size{font-size:.75rem;color:var(--t3)}
+.file-preview-item .file-remove{background:none;border:none;color:var(--er);cursor:pointer;font-size:1.1rem;padding:5px;transition:var(--tr)}
+.file-preview-item .file-remove:hover{transform:scale(1.2)}
+
 /* CERTS */
 .certs-section{background:var(--bg2);border-top:1px solid var(--bd);border-bottom:1px solid var(--bd)}
 .certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1200px;margin:0 auto}
@@ -316,7 +330,7 @@ a{color:inherit;text-decoration:none}
 .newsletter-msg.success{color:var(--ok);display:block}
 .newsletter-msg.error{color:var(--er);display:block}
 
-/* PRIVACY BANNER */
+/* PRIVACY */
 .privacy-banner{position:fixed;bottom:0;left:0;width:100%;background:var(--card);border-top:1px solid var(--bd);padding:15px 40px;display:flex;align-items:center;justify-content:center;gap:20px;z-index:9998;transform:translateY(100%);transition:transform .4s ease;font-size:.88rem}
 .privacy-banner.show{transform:translateY(0)}
 .privacy-banner a{color:var(--accL);text-decoration:underline}
@@ -354,7 +368,7 @@ footer{background:var(--bg2);border-top:1px solid var(--bd);position:relative;z-
 .fade-in{opacity:0;transition:opacity .8s ease}
 .fade-in.visible{opacity:1}
 
-/* NOISE OVERLAY */
+/* NOISE */
 .noise-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 /* RESPONSIVE */
@@ -428,8 +442,8 @@ section{padding:60px 20px}
 <li><a href="#formacao" class="nav-link" data-section="formacao">Formação</a></li>
 <li><a href="#habilidades" class="nav-link" data-section="habilidades">Habilidades</a></li>
 <li><a href="#projetos" class="nav-link" data-section="projetos">Projetos</a></li>
-<li><a href="#radio" class="nav-link" data-section="radio">Rádio</a></li>
 <li><a href="#certificacoes" class="nav-link" data-section="certificacoes">Certificações</a></li>
+<li><a href="#radio" class="nav-link" data-section="radio">Rádio</a></li>
 <li><a href="#hobbies" class="nav-link" data-section="hobbies">Hobbies</a></li>
 <li><a href="#links" class="nav-link" data-section="links">Links</a></li>
 <li><a href="#contato" class="nav-link" data-section="contato">Contato</a></li>
@@ -561,9 +575,9 @@ section{padding:60px 20px}
 </div>
 <div class="certs-grid">
 <div class="cert-card fade-up"><div class="cert-icon"><i class="fas fa-certificate"></i></div><div class="cert-info"><h3>HTML, CSS e JavaScript</h3><p>Fundamentos do desenvolvimento web moderno</p><div class="cert-issuer">Alura — 2023</div></div></div>
-<div class="cert-card fade-up" style="animation-delay:.1s"><div class="cert-icon"><i class="fab fa-react"></i></div><div class="cert-info"><h3>React: Guia Completo</h3><p>Componentes, Hooks, estado e ciclo de vida</p><div class="cert-issuer">Udemy — 2023</div></div></div>
-<div class="cert-card fade-up" style="animation-delay:.2s"><div class="cert-icon"><i class="fas fa-database"></i></div><div class="cert-info"><h3>Banco de Dados SQL</h3><p>Modelagem, consultas e administração de BD</p><div class="cert-issuer">DIO — 2024</div></div></div>
-<div class="cert-card fade-up" style="animation-delay:.3s"><div class="cert-icon"><i class="fas fa-git-alt"></i></div><div class="cert-info"><h3>Git e GitHub</h3><p>Controle de versão e colaboração</p><div class="cert-issuer">Rocketseat — 2023</div></div></div>
+<div class="cert-card fade-up"><div class="cert-icon"><i class="fab fa-react"></i></div><div class="cert-info"><h3>React: Guia Completo</h3><p>Componentes, Hooks, estado e ciclo de vida</p><div class="cert-issuer">Udemy — 2023</div></div></div>
+<div class="cert-card fade-up"><div class="cert-icon"><i class="fas fa-database"></i></div><div class="cert-info"><h3>Banco de Dados SQL</h3><p>Modelagem, consultas e administração de BD</p><div class="cert-issuer">DIO — 2024</div></div></div>
+<div class="cert-card fade-up"><div class="cert-icon"><i class="fas fa-git-alt"></i></div><div class="cert-info"><h3>Git e GitHub</h3><p>Controle de versão e colaboração</p><div class="cert-issuer">Rocketseat — 2023</div></div></div>
 </div>
 </section>
 
@@ -642,7 +656,7 @@ section{padding:60px 20px}
 <div class="links-grid">
 <a href="https://github.com/" target="_blank" class="link-card fade-up"><div class="link-icon github"><i class="fab fa-github"></i></div><div class="link-info"><h3>GitHub</h3><p>@vitorlima — Veja meus projetos open-source</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
 <a href="https://linkedin.com/" target="_blank" class="link-card fade-up"><div class="link-icon linkedin"><i class="fab fa-linkedin-in"></i></div><div class="link-info"><h3>LinkedIn</h3><p>/in/vitorlima — Conecte-se profissionalmente</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
-<a href="mailto:admvitordias@gmail.com" class="link-card fade-up"><div class="link-icon email"><i class="fas fa-envelope"></i></div><div class="link-info"><h3>Email</h3><p>mailto:admvitordias@gmail.com</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
+<a href="mailto:admvitordias@gmail.com" class="link-card fade-up"><div class="link-icon email"><i class="fas fa-envelope"></i></div><div class="link-info"><h3>Email</h3><p>admvitordias@gmail.com</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
 <a href="https://wa.me/5500000000000" target="_blank" class="link-card fade-up"><div class="link-icon whatsapp"><i class="fab fa-whatsapp"></i></div><div class="link-info"><h3>WhatsApp</h3><p>Enviar mensagem direta</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
 <a href="#" target="_blank" class="link-card fade-up"><div class="link-icon instagram"><i class="fab fa-instagram"></i></div><div class="link-info"><h3>Instagram</h3><p>@vitorlima — Acompanhe meu dia a dia</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
 <a href="#" target="_blank" class="link-card fade-up"><div class="link-icon youtube"><i class="fab fa-youtube"></i></div><div class="link-info"><h3>YouTube</h3><p>@vitorlima — Vídeos e tutoriais</p></div><i class="fas fa-arrow-right link-arrow"></i></a>
@@ -667,7 +681,7 @@ section{padding:60px 20px}
 <div class="section-header fade-in">
 <span class="label">Fale Comigo</span>
 <h2>Entre em <span class="gx">Contato</span></h2>
-<p>Vamos conversar? Me envie uma mensagem!</p>
+<p>Vamos conversar? Me envie uma mensagem ou arquive seus arquivos abaixo!</p>
 </div>
 <div class="contact-grid">
 <div class="contact-info-cards fade-left">
@@ -678,12 +692,24 @@ section{padding:60px 20px}
 <div class="contact-card"><div class="contact-card-icon"><i class="fas fa-check-circle"></i></div><div class="contact-card-text"><h3>Resposta</h3><p>Em até 24 horas</p></div></div>
 </div>
 <div class="contact-form fade-right">
-<form id="contact-form" onsubmit="handleContact(event)">
+<form id="contact-form" onsubmit="return handleContact(event)">
 <div class="form-group"><label for="contact-name">Nome Completo</label><input type="text" id="contact-name" placeholder="Ex: Vitor Lima" required></div>
-<div class="form-group"><label for="contact-email">Email</label><input type="email" id="contact-email" placeholder="exemplo@email.com" required></div>
 <div class="form-group"><label for="contact-assunto">Assunto</label><input type="text" id="contact-assunto" placeholder="Assunto da mensagem"></div>
 <div class="form-group"><label for="contact-message">Mensagem</label><textarea id="contact-message" placeholder="Escreva sua mensagem aqui..." required maxlength="500"></textarea><div class="char-count"><span id="char-count">0</span>/500</div></div>
-<button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Enviar Mensagem</button>
+
+<!-- UPLOAD DE ARQUIVOS -->
+<div class="form-group">
+<label>Anexar Arquivos</label>
+<div class="file-upload-area" id="file-upload-area">
+<i class="fas fa-cloud-upload-alt"></i>
+<p><strong>Clique ou arraste arquivos aqui</strong></p>
+<small>PNG, JPG, PDF, DOC, MP4 — até 20MB cada</small>
+<input type="file" id="file-input" multiple accept=".png,.jpg,.jpeg,.pdf,.doc,.docx,.mp4,.zip,.rar,.txt,.csv,.xlsx">
+</div>
+<div class="file-preview-list" id="file-preview-list"></div>
+</div>
+
+<button type="submit" class="btn-primary" id="submit-btn"><i class="fas fa-paper-plane"></i> Enviar Mensagem & Arquivos</button>
 <div class="form-message" id="form-message"></div>
 </form>
 </div>
@@ -856,7 +882,7 @@ setTimeout(typeAnim, ts);
 typeAnim();
 
 // =============================================
-// SCROLL ANIMATIONS (IntersectionObserver)
+// SCROLL ANIMATIONS
 // =============================================
 const obsOpts = { threshold: .1, rootMargin: '0px 0px -50px 0px' };
 const obs = new IntersectionObserver(entries => {
@@ -913,8 +939,6 @@ vizBars.forEach(b => { b.style.height = (Math.random()*45+5)+'px'; b.style.opaci
 }
 function startViz() { stopViz(); vizIv = setInterval(animViz, 150); }
 function stopViz() { if (vizIv) { clearInterval(vizIv); vizIv = null; } }
-function saveOrigHeights() { vizBars.forEach(b => b.setAttribute('data-orig', b.style.height)); }
-saveOrigHeights();
 
 function playStream(url) {
 stopStream();
@@ -954,19 +978,173 @@ volSlider.addEventListener('input', () => { volVal.textContent = Math.round(volS
 document.querySelectorAll('.preset-btn').forEach(b => b.addEventListener('click', () => { urlInput.value = b.getAttribute('data-url'); curStream = ''; playStream(b.getAttribute('data-url')); }));
 
 // =============================================
-// CONTACT FORM
+// FILE UPLOAD
+// =============================================
+const fileInput = document.getElementById('file-input');
+const filePreviewList = document.getElementById('file-preview-list');
+const uploadArea = document.getElementById('file-upload-area');
+let uploadedFiles = [];
+
+// Gera ícone baseado na extensão do arquivo
+function getFileIcon(filename) {
+const ext = filename.split('.').pop().toLowerCase();
+const iconMap = {
+pdf: 'fas fa-file-pdf', doc:'fas fa-file-word', docx:'fas fa-file-word',
+txt:'fas fa-file-alt', csv:'fas fa-file-csv', xlsx:'fas fa-file-excel',
+xls:'fas fa-file-excel', png:'fas fa-file-image', jpg:'fas fa-file-image',
+jpeg:'fas fa-file-image', jpg:'fas fa-file-image', mp4:'fas fa-file-video',
+zip:'fas fa-file-archive', rar:'fas fa-file-archive',
+default: 'fas fa-file'
+};
+return iconMap[ext] || iconMap.default;
+}
+
+// Formata tamanho do arquivo
+function formatSize(bytes) {
+if (bytes < 1024) return bytes + ' B';
+if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+function addFilePreview(file) {
+const div = document.createElement('div');
+div.className = 'file-preview-item';
+div.dataset.fileName = file.name;
+div.innerHTML = `
+<i class="${getFileIcon(file.name)} file-icon"></i>
+<div class="file-info">
+<div class="file-name" title="${file.name}">${file.name}</div>
+<div class="file-size">${formatSize(file.size)}</div>
+</div>
+<button class="file-remove" title="Remover">&times;</button>
+`;
+div.querySelector('.file-remove').addEventListener('click', () => {
+div.remove();
+uploadedFiles = uploadedFiles.filter(f => f.name !== file.name);
+if (uploadedFiles.length === 0) filePreviewList.innerHTML = '';
+});
+filePreviewList.appendChild(div);
+}
+
+fileInput.addEventListener('change', () => {
+const files = Array.from(fileInput.files);
+files.forEach(file => {
+if (file.size > 20 * 1024 * 1024) {
+alert('Arquivo "' + file.name + '" excede o limite de 20MB!');
+return;
+}
+// Salva como base64 no localStorage
+const reader = new FileReader();
+reader.onload = function(e) {
+const fileData = {
+name: file.name,
+size: file.size,
+type: file.type,
+data: e.target.result, // base64
+timestamp: new Date().toISOString()
+};
+uploadedFiles.push(fileData);
+
+// Salvar no localStorage (banco sem banco!)
+let allFiles = JSON.parse(localStorage.getItem('uploaded_files') || '[]');
+allFiles.push(fileData);
+localStorage.setItem('uploaded_files', JSON.stringify(allFiles));
+
+addFilePreview(file);
+
+// Feedback visual
+uploadArea.style.borderColor = 'var(--ok)';
+setTimeout(() => { uploadArea.style.borderColor = ''; }, 1500);
+};
+reader.readAsDataURL(file);
+});
+fileInput.value = '';
+});
+
+// Drag and Drop
+uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+uploadArea.addEventListener('dragleave', () => { uploadArea.classList.remove('dragover'); });
+uploadArea.addEventListener('drop', (e) => {
+e.preventDefault();
+uploadArea.classList.remove('dragover');
+fileInput.files = e.dataTransfer.files;
+fileInput.dispatchEvent(new Event('change'));
+});
+
+// Carregar arquivos salvos no localStorage ao abrir a página
+(function loadSavedFiles() {
+let saved = JSON.parse(localStorage.getItem('uploaded_files') || '[]');
+saved.slice(-5).reverse().forEach(f => { // mostra os 5 últimos
+const div = document.createElement('div');
+div.className = 'file-preview-item';
+div.innerHTML = `
+<i class="${getFileIcon(f.name)} file-icon"></i>
+<div class="file-info">
+<div class="file-name" title="${f.name}">${f.name}</div>
+<div class="file-size">${formatSize(f.size)} • ${new Date(f.timestamp).toLocaleDateString('pt-BR')}</div>
+</div>
+<button class="file-remove" title="Remover">&times;</button>
+`;
+div.querySelector('.file-remove').addEventListener('click', () => {
+div.remove();
+let all = JSON.parse(localStorage.getItem('uploaded_files') || '[]');
+all = all.filter(af => af.name !== f.name || af.timestamp !== f.timestamp);
+localStorage.setItem('uploaded_files', JSON.stringify(all));
+});
+filePreviewList.appendChild(div);
+});
+})();
+
+// =============================================
+// CONTACT FORM (com envio para Formspree)
 // =============================================
 function handleContact(e) {
 e.preventDefault();
-let n = document.getElementById('contact-name').value.trim();
-let em = document.getElementById('contact-email').value.trim();
-let msg = document.getElementById('contact-message').value.trim();
-let fm = document.getElementById('form-message');
-if (!n || !em || !msg) { fm.textContent = '⚠️ Preencha todos os campos obrigatórios.'; fm.className = 'form-message error'; fm.style.display = 'block'; return; }
+const name = document.getElementById('contact-name').value.trim();
+const assunto = document.getElementById('contact-assunto').value.trim();
+const message = document.getElementById('contact-message').value.trim();
+const fm = document.getElementById('form-message');
 
-// Save to localStorage (banco sem banco)
+if (!name || !message) {
+fm.textContent = '⚠️ Preencha pelo menos o Nome e a Mensagem.';
+fm.className = 'form-message error'; fm.style.display = 'block';
+return;
+}
+
+// Montar corpo do email
+let corpo = `Nome: ${name}\nAssunto: ${assunto || '(sem assunto)'}\nMensagem: ${message}\n`;
+if (uploadedFiles.length > 0) {
+corpo += `\nArquivos anexados (${uploadedFiles.length}):\n`;
+uploadedFiles.forEach(f => { corpo += `  - ${f.name} (${formatSize(f.size)})\n`; });
+}
+corpo += `\n---\nEnviado via portfólio de Vitor Lima`;
+
+// Opção 1: Formspree (recomendado - descomente abaixo e coloque seu ID do Formspree)
+// const FORMSPREE_ID = 'SEU_FORMSPREE_ID_AQUI';
+// fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+//     method: 'POST',
+//     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+//     body: JSON.stringify({
+//         name: name,
+//         assunto: assunto || '',
+//         message: message,
+//         email: 'admvitordias@gmail.com',
+//         files: uploadedFiles.map(f => f.name)
+//     })
+// }).then(r => { if(r.ok) { ... } });
+
+// Opção 2: Abrir direto no email (Gmail) - FUNCIONA SEM BACKEND
+const emailBody = encodeURIComponent(corpo.trim());
+const emailSubject = encodeURIComponent(assunto || 'Mensagem do Portfólio');
+const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=admvitordias@gmail.com&su=${emailSubject}&body=${emailBody}`;
+
+fm.innerHTML = '📨 <strong>Preparando envio...</strong><br><small>Seu email (Gmail) será aberto automaticamente com os dados preenchidos. Clique em "Enviar" no Gmail para finalizar.</small>';
+fm.className = 'form-message success';
+fm.style.display = 'block';
+
+// Salvar no localStorage
 let msgs = JSON.parse(localStorage.getItem('contact_messages') || '[]');
-msgs.push({ name: n, email: em, assunto: document.getElementById('contact-assunto').value.trim(), message: msg, date: new Date().toISOString() });
+msgs.push({ name, assunto, message, files: uploadedFiles.length, date: new Date().toISOString() });
 localStorage.setItem('contact_messages', JSON.stringify(msgs));
 
 // Analytics
@@ -975,35 +1153,40 @@ analytics.contacts_sent = (analytics.contacts_sent || 0) + 1;
 analytics.last_contact = new Date().toISOString();
 localStorage.setItem('analytics', JSON.stringify(analytics));
 
-fm.textContent = '📨 Enviando mensagem...'; fm.className = 'form-message'; fm.style.display = 'block';
+// Abrir Gmail após 1.5 segundo
 setTimeout(() => {
-fm.textContent = '✅ Mensagem enviada com sucesso! Entrarei em contato em breve.';
-fm.className = 'form-message success'; document.getElementById('contact-form').reset();
+window.open(gmailUrl, '_blank');
+document.getElementById('contact-form').reset();
 document.getElementById('char-count').textContent = '0';
+filePreviewList.innerHTML = '';
+uploadedFiles = [];
 setTimeout(() => fm.style.display = 'none', 5000);
-}, 1500);
+}, 2000);
+
+return false;
 }
 
 // Char counter
-document.getElementById('contact-message').addEventListener('input', function() { document.getElementById('char-count').textContent = this.value.length; });
+document.getElementById('contact-message').addEventListener('input', function() {
+document.getElementById('char-count').textContent = this.value.length;
+});
 
 // =============================================
 // NEWSLETTER (localStorage)
 // =============================================
 function handleNewsletter(e) {
 e.preventDefault();
-let email = document.getElementById('newsletter-email').value.trim();
-let msg = document.getElementById('newsletter-msg');
+const email = document.getElementById('newsletter-email').value.trim();
+const msg = document.getElementById('newsletter-msg');
 let subs = JSON.parse(localStorage.getItem('newsletter_subs') || '[]');
 if (subs.includes(email)) { msg.textContent = '⚠️ Você já está inscrito!'; msg.className = 'newsletter-msg error'; msg.style.display = 'block'; return; }
 subs.push(email);
 localStorage.setItem('newsletter_subs', JSON.stringify(subs));
-
 let analytics = JSON.parse(localStorage.getItem('analytics') || '{}');
 analytics.newsletter_subs = (analytics.newsletter_subs || 0) + 1;
 localStorage.setItem('analytics', JSON.stringify(analytics));
-
-msg.textContent = '✅ Inscrição realizada com sucesso!'; msg.className = 'newsletter-msg success'; msg.style.display = 'block';
+msg.textContent = '✅ Inscrição realizada com sucesso!';
+msg.className = 'newsletter-msg success'; msg.style.display = 'block';
 document.getElementById('newsletter-email').value = '';
 setTimeout(() => msg.style.display = 'none', 5000);
 }
@@ -1076,7 +1259,7 @@ document.getElementById('privacy-banner').classList.remove('show');
 })();
 
 // =============================================
-// LOCAL ANALYTICS PERFORMANCE TRACKING
+// LOCAL ANALYTICS
 // =============================================
 (function trackAnalytics() {
 let data = JSON.parse(localStorage.getItem('analytics') || '{}');
@@ -1087,7 +1270,7 @@ localStorage.setItem('analytics', JSON.stringify(data));
 })();
 
 // =============================================
-// ONLINE/OFFLINE STATUS
+// ONLINE/OFFLINE
 // =============================================
 window.addEventListener('online', () => { document.title = 'Vitor Lima - Portfólio'; });
 window.addEventListener('offline', () => { document.title = '⚠️ Sem conexão - Vitor Lima'; });
