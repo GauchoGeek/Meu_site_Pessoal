@@ -31,17 +31,17 @@ body {
   background: var(--bg); color: var(--text); line-height: 1.6;
   overflow-x: hidden; transition: background var(--transition), color var(--transition);
 }
-canvas#particles { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+canvas#particles-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 #loading {
   position:fixed; top:0; left:0; width:100%; height:100%; z-index:9999;
   background: var(--bg); display:flex; flex-direction:column;
-  align-items:center; justify-content:center; transition: opacity 0.6s ease;
+  align-items:center; justify-content:center; transition: opacity 0.5s ease;
 }
 #loading.hidden { opacity:0; pointer-events:none; }
 .loader-ring {
   width:60px; height:60px; border:4px solid var(--card-border);
   border-top:4px solid var(--neon); border-radius:50%;
-  animation: spin 1s linear infinite; margin-bottom:20px;
+  animation: spin 0.8s linear infinite; margin-bottom:20px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loader-text { color: var(--neon); font-size:18px; font-weight:600; letter-spacing:2px; }
@@ -55,13 +55,14 @@ canvas#particles { position:fixed; top:0; left:0; width:100%; height:100%; z-ind
   position:fixed; pointer-events:none; z-index:9997;
   transition: width 0.3s, height 0.3s, border-color 0.3s;
 }
+@media (hover: none) and (pointer: coarse) {
+  #cursor-dot, #cursor-ring { display:none !important; }
+}
 a { color: var(--neon); text-decoration:none; transition: color var(--transition); }
 a:hover { color: var(--neon2); }
 section { position:relative; z-index:1; }
 .container { max-width:1200px; margin:0 auto; padding:0 20px; }
-.section-title {
-  text-align:center; margin-bottom:60px;
-}
+.section-title { text-align:center; margin-bottom:60px; }
 .section-title h2 {
   font-size:clamp(28px,5vw,48px); font-weight:800;
   background: linear-gradient(135deg, var(--neon), var(--neon2));
@@ -85,7 +86,7 @@ section { position:relative; z-index:1; }
   padding:15px 0; transition:all var(--transition);
   backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
 }
-.navbar.scrolled { background:rgba(var(--bg),0.95); border-bottom:1px solid var(--card-border); padding:10px 0; }
+.navbar.scrolled { background:rgba(10,10,15,0.95); border-bottom:1px solid var(--card-border); padding:10px 0; }
 .navbar .container { display:flex; justify-content:space-between; align-items:center; }
 .logo {
   font-size:24px; font-weight:800;
@@ -149,7 +150,6 @@ section { position:relative; z-index:1; }
   width:100%; max-width:400px; margin:0 auto; border-radius:var(--radius);
   border:2px solid var(--card-border); overflow:hidden; position:relative;
 }
-.about-img img { width:100%; display:block; object-fit:cover; }
 .about-content h3 { font-size:28px; margin-bottom:15px; }
 .about-content p { color:var(--text2); margin-bottom:20px; font-size:16px; }
 .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
@@ -279,7 +279,7 @@ section { position:relative; z-index:1; }
   display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--neon);
 }
 .contact-form { background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:30px; }
-/* COUNTER */
+/* VSITOR COUNTER */
 .visitor-counter {
   position:fixed; bottom:20px; right:20px; z-index:100;
   background:var(--card); border:1px solid var(--card-border); border-radius:50px;
@@ -308,9 +308,7 @@ footer .footer-links a { color:var(--text2); font-size:14px; transition:color va
 footer .footer-links a:hover { color:var(--neon); }
 footer p { color:var(--text3); font-size:13px; }
 /* FLOATING SHAPES */
-.floating-shape {
-  position:fixed; border-radius:50%; pointer-events:none; z-index:0; opacity:0.08;
-}
+.floating-shape { position:fixed; border-radius:50%; pointer-events:none; z-index:0; opacity:0.08; }
 /* ANIMATIONS */
 .observe { opacity:0; transform:translateY(40px); transition:all 0.8s ease; }
 .observe.visible { opacity:1; transform:translateY(0); }
@@ -337,8 +335,6 @@ footer p { color:var(--text3); font-size:13px; }
   .stat h3 { font-size:24px; }
   .projects-grid, .blog-grid { grid-template-columns:1fr; }
 }
-/* PARTICLE CANVAS SPECIFIC */
-#particles-canvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; }
 </style>
 </head>
 <body>
@@ -353,7 +349,7 @@ footer p { color:var(--text3); font-size:13px; }
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
 
-<!-- PARTICLES CANVAS -->
+<!-- PARTICLES -->
 <canvas id="particles-canvas"></canvas>
 
 <!-- NAVBAR -->
@@ -611,8 +607,6 @@ footer p { color:var(--text3); font-size:13px; }
       <h2>Blog</h2>
       <p>Meus pensamentos e aprendizados</p>
     </div>
-
-    <!-- Form criar post -->
     <div class="guestbook-form observe" style="max-width:700px;margin:0 auto 40px;">
       <h3 style="margin-bottom:20px;color:var(--neon);"><i class="fas fa-plus-circle"></i> Criar Novo Post</h3>
       <div class="form-group">
@@ -629,9 +623,8 @@ footer p { color:var(--text3); font-size:13px; }
       </div>
       <button class="btn btn-primary" onclick="createBlogPost()"><i class="fas fa-paper-plane"></i> Publicar</button>
     </div>
-
     <div class="blog-grid observe" id="blogGrid">
-      <!-- Posts carregados via JS -->
+      <p style="text-align:center;color:var(--text3);grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> Carregando posts...</p>
     </div>
   </div>
 </section>
@@ -643,7 +636,6 @@ footer p { color:var(--text3); font-size:13px; }
       <h2>Recados</h2>
       <p>Deixe uma mensagem para o Vitor</p>
     </div>
-
     <div class="guestbook-form observe">
       <h3 style="margin-bottom:20px;color:var(--neon);"><i class="fas fa-pen-fancy"></i> Deixe seu Recado</h3>
       <div class="form-group">
@@ -656,9 +648,8 @@ footer p { color:var(--text3); font-size:13px; }
       </div>
       <button class="btn btn-primary" onclick="addGuestbookEntry()"><i class="fas fa-paper-plane"></i> Enviar</button>
     </div>
-
     <div class="gb-entries observe" id="gbEntries">
-      <p style="text-align:center;color:var(--text3);grid-column:1/-1;">Carregando recados...</p>
+      <p style="text-align:center;color:var(--text3);grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> Carregando recados...</p>
     </div>
   </div>
 </section>
@@ -820,7 +811,7 @@ footer p { color:var(--text3); font-size:13px; }
   </div>
 </footer>
 
-<!-- TOAST CONTAINER -->
+<!-- TOAST -->
 <div class="toast-container" id="toastContainer"></div>
 
 <!-- VISITOR COUNTER -->
@@ -828,221 +819,248 @@ footer p { color:var(--text3); font-size:13px; }
   <i class="fas fa-eye"></i> <span id="visitorCount">0</span> visitantes
 </div>
 
+<!-- Supabase CDN -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============================================================
-// SUPABASE CONFIGURATION - COLE SUAS CREDENCIAIS AQUI
+// CONFIGURAÇÃO SUPABASE
 // ============================================================
-const SUPABASE_URL = 'https://qrtqcjysgkrorirjjprd.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_62s-wSBilJYBaUgZfJyX9A_My2M5DRH';
-
-// Inicializar Supabase
-let supabaseClient = null;
-let supabaseAvailable = false;
+var SUPABASE_URL = 'https://qrtqcjysgkrorirjjprd.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_62s-wSBilJYBaUgZfJyX9A_My2M5DRH';
+var supabaseClient = null;
+var supabaseAvailable = false;
 
 try {
-  if (typeof SUPABASE_URL === 'string' && SUPABASE_URL.length > 0 &&
-      typeof SUPABASE_ANON_KEY === 'string' && SUPABASE_ANON_KEY.length > 0) {
-    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  if (typeof supabase !== 'undefined') {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false }
+    });
     supabaseAvailable = true;
-    console.log('✅ Supabase conectado com sucesso!');
-  } else {
-    console.warn('⚠️ Credenciais do Supabase não configuradas. Usando fallback local.');
-    supabaseAvailable = false;
+    console.log('✅ Supabase conectado!');
   }
-} catch (e) {
-  console.warn('⚠️ Erro ao conectar ao Supabase:', e.message);
-  supabaseAvailable = false;
+} catch(e) {
+  console.warn('⚠️ Supabase erro:', e.message || e);
 }
 
 // ============================================================
-// CACHE LOCAL (Fallback quando Supabase não está disponível)
+// LOCAL STORAGE
 // ============================================================
 function getLocalData(key) {
   try {
-    const data = localStorage.getItem('vitor_site_' + key);
-    return data ? JSON.parse(data) : [];
-  } catch { return []; }
+    var d = localStorage.getItem('vs_' + key);
+    return d ? JSON.parse(d) : null;
+  } catch(e) { return null; }
 }
 
 function setLocalData(key, data) {
   try {
-    localStorage.setItem('vitor_site_' + key, JSON.stringify(data));
-  } catch (e) { console.warn('Erro ao salvar local:', e); }
+    localStorage.setItem('vs_' + key, JSON.stringify(data));
+    return true;
+  } catch(e) { console.warn('Erro ao salvar', e); return false; }
 }
 
 // ============================================================
-// PARTICLES BACKGROUND
+// UTILIDADES
 // ============================================================
-const canvas = document.getElementById('particles-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-let mouse = { x: 0, y: 0 };
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+function escHtml(text) {
+  if (!text) return '';
+  return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
 
-document.addEventListener('mousemove', (e) => {
-  mouse.x = e.clientX;
-  mouse.y = e.clientY;
-});
+function fmtData(str) {
+  try {
+    var d = new Date(str);
+    if (isNaN(d.getTime())) return 'Data inválida';
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  } catch(e) { return 'Data inválida'; }
+}
 
-class Particle {
-  constructor() {
-    this.reset();
-    this.y = Math.random() * canvas.height;
-  }
-  reset() {
-    this.x = Math.random() * canvas.width;
-    this.y = Math.random() * canvas.height;
-    this.size = Math.random() * 2 + 0.5;
-    this.speedX = (Math.random() - 0.5) * 0.5;
-    this.speedY = (Math.random() - 0.5) * 0.5;
-    this.opacity = Math.random() * 0.5 + 0.1;
-    this.color = Math.random() > 0.5 ? '0, 240, 255' : '255, 0, 255';
-  }
-  update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
-    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+function fmtDataHora(str) {
+  try {
+    var d = new Date(str);
+    if (isNaN(d.getTime())) return 'Data inválida';
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  } catch(e) { return 'Data inválida'; }
+}
+
+// ============================================================
+// PARTICLES CANVAS (com try-catch total)
+// ============================================================
+!function() {
+  try {
+    var canvas = document.getElementById('particles-canvas');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    var particles = [];
+    var mouse = { x: 0, y: 0 };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('mousemove', function(e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+    function Particle() {
       this.reset();
+      this.y = Math.random() * canvas.height;
     }
+    Particle.prototype.reset = function() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.5;
+      this.speedY = (Math.random() - 0.5) * 0.5;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.color = Math.random() > 0.5 ? '0, 240, 255' : '255, 0, 255';
+    };
+    Particle.prototype.update = function() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    };
+    Particle.prototype.draw = function() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(' + this.color + ', ' + this.opacity + ')';
+      ctx.fill();
+    };
+
+    for (var i = 0; i < 100; i++) particles.push(new Particle());
+
+    function animateParticles() {
+      try {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.update();
+          p.draw();
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = p.x - particles[j].x;
+            var dy = p.y - particles[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.beginPath();
+              ctx.strokeStyle = 'rgba(0, 240, 255, ' + (0.08 * (1 - dist / 150)) + ')';
+              ctx.lineWidth = 0.5;
+              ctx.moveTo(p.x, p.y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+          var dx2 = mouse.x - p.x;
+          var dy2 = mouse.y - p.y;
+          var dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+          if (dist2 < 150) {
+            p.opacity = Math.min(1, p.opacity + 0.05);
+            p.size = Math.min(4, p.size + 0.1);
+          } else {
+            p.opacity = Math.max(0.05, p.opacity - 0.02);
+            if (p.size > 0.5) p.size -= 0.05;
+          }
+        }
+        requestAnimationFrame(animateParticles);
+      } catch(e) { /* silencia */ }
+    }
+    animateParticles();
+  } catch(e) {
+    console.warn('Partículas desativadas:', e);
+    // Esconde o canvas se der erro
+    try { canvas.style.display = 'none'; } catch(e2) {}
   }
-  draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
-    ctx.fill();
+}();
+
+// ============================================================
+// CUSTOM CURSOR (não trava o site)
+// ============================================================
+!function() {
+  if ('ontouchstart' in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0)) {
+    try {
+      document.getElementById('cursor-dot').style.display = 'none';
+      document.getElementById('cursor-ring').style.display = 'none';
+    } catch(e) {}
+    return;
   }
-}
-
-for (let i = 0; i < 120; i++) {
-  particles.push(new Particle());
-}
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  
-  particles.forEach((p, i) => {
-    p.update();
-    p.draw();
-    
-    // Conectar partículas próximas
-    for (let j = i + 1; j < particles.length; j++) {
-      const dx = p.x - particles[j].x;
-      const dy = p.y - particles[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < 150) {
-        ctx.beginPath();
-        ctx.strokeStyle = `rgba(0, 240, 255, ${0.08 * (1 - dist / 150)})`;
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.stroke();
-      }
+  try {
+    var dot = document.getElementById('cursor-dot');
+    var ring = document.getElementById('cursor-ring');
+    document.addEventListener('mousemove', function(e) {
+      dot.style.transform = 'translate(' + (e.clientX - 4) + 'px, ' + (e.clientY - 4) + 'px)';
+      ring.style.transform = 'translate(' + (e.clientX - 15) + 'px, ' + (e.clientY - 15) + 'px)';
+    });
+    var hoverable = document.querySelectorAll('a, button, input, textarea, select');
+    for (var i = 0; i < hoverable.length; i++) {
+      (function(el) {
+        el.addEventListener('mouseenter', function() { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.borderColor = 'var(--neon2)'; });
+        el.addEventListener('mouseleave', function() { ring.style.width = '30px'; ring.style.height = '30px'; ring.style.borderColor = 'var(--neon)'; });
+      })(hoverable[i]);
     }
-    
-    // Efeito de mouse
-    const dx = mouse.x - p.x;
-    const dy = mouse.y - p.y;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    if (dist < 150) {
-      p.opacity = Math.min(1, p.opacity + 0.05);
-      p.size = Math.min(4, p.size + 0.1);
-    } else {
-      p.opacity = Math.max(p.opacity - 0.02, parseFloat(p.opacity) - 0.02);
-      if (p.size > 1.5) p.size -= 0.05;
-    }
-  });
-  
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
+  } catch(e) {
+    console.warn('Cursor customizado desativado');
+  }
+}();
 
 // ============================================================
-// CUSTOM CURSOR
+// LOADING SCREEN - Força desaparecimento em 2 segundos
 // ============================================================
-const cursorDot = document.getElementById('cursor-dot');
-const cursorRing = document.getElementById('cursor-ring');
-
-document.addEventListener('mousemove', (e) => {
-  cursorDot.style.transform = `translate(${e.clientX - 4}px, ${e.clientY - 4}px)`;
-  cursorRing.style.transform = `translate(${e.clientX - 15}px, ${e.clientY - 15}px)`;
-});
-
-document.querySelectorAll('a, button, input, textarea, select').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursorRing.style.width = '40px';
-    cursorRing.style.height = '40px';
-    cursorRing.style.borderColor = 'var(--neon2)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursorRing.style.width = '30px';
-    cursorRing.style.height = '30px';
-    cursorRing.style.borderColor = 'var(--neon)';
-  });
-});
-
-// ============================================================
-// LOADING SCREEN
-// ============================================================
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.getElementById('loading').classList.add('hidden');
-    setTimeout(() => {
-      document.getElementById('loading').style.display = 'none';
-    }, 600);
-  }, 1500);
-});
-
-// Fallback de segurança
-setTimeout(() => {
-  const loading = document.getElementById('loading');
-  if (loading && !loading.classList.contains('hidden')) {
+function hideLoading() {
+  var loading = document.getElementById('loading');
+  if (loading) {
     loading.classList.add('hidden');
-    setTimeout(() => { loading.style.display = 'none'; }, 600);
+    setTimeout(function() {
+      if (loading.parentNode) loading.style.display = 'none';
+    }, 600);
   }
-}, 5000);
+}
+
+// Força esconder em no máximo 2 segundos
+var loadingForceTimeout = setTimeout(hideLoading, 2000);
+
+// Também esconde quando a página carregar
+if (document.readyState === 'complete') {
+  clearTimeout(loadingForceTimeout);
+  hideLoading();
+} else {
+  window.addEventListener('load', function() {
+    clearTimeout(loadingForceTimeout);
+    hideLoading();
+  });
+}
 
 // ============================================================
 // NAVBAR SCROLL
 // ============================================================
-window.addEventListener('scroll', () => {
-  const navbar = document.getElementById('navbar');
-  if (window.scrollY > 50) {
-    navbar.classList.add('scrolled');
-  } else {
-    navbar.classList.remove('scrolled');
-  }
+window.addEventListener('scroll', function() {
+  var navbar = document.getElementById('navbar');
+  if (window.scrollY > 50) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
 });
 
-// Mobile nav toggle
-document.getElementById('navToggle').addEventListener('click', () => {
+document.getElementById('navToggle').addEventListener('click', function() {
   document.getElementById('navLinks').classList.toggle('active');
 });
 
-// Fechar menu ao clicar num link (mobile)
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', () => {
+var navLinks = document.querySelectorAll('.nav-links a');
+for (var i = 0; i < navLinks.length; i++) {
+  navLinks[i].addEventListener('click', function() {
     document.getElementById('navLinks').classList.remove('active');
   });
-});
+}
 
 // ============================================================
 // THEME TOGGLE
 // ============================================================
-const themeToggle = document.getElementById('themeToggle');
-const savedTheme = localStorage.getItem('vitor_theme') || 'dark';
+var themeToggle = document.getElementById('themeToggle');
+var savedTheme = localStorage.getItem('vitor_theme') || 'dark';
 document.documentElement.setAttribute('data-theme', savedTheme);
 themeToggle.textContent = savedTheme === 'dark' ? '🌙' : '☀️';
 
-themeToggle.addEventListener('click', () => {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
+themeToggle.addEventListener('click', function() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   themeToggle.textContent = next === 'dark' ? '🌙' : '☀️';
   localStorage.setItem('vitor_theme', next);
@@ -1051,34 +1069,31 @@ themeToggle.addEventListener('click', () => {
 // ============================================================
 // SCROLL ANIMATIONS
 // ============================================================
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-    }
-  });
+var observer = new IntersectionObserver(function(entries) {
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
+  }
 }, { threshold: 0.1 });
 
-document.querySelectorAll('.observe').forEach(el => observer.observe(el));
+var observeEls = document.querySelectorAll('.observe');
+for (var i = 0; i < observeEls.length; i++) observer.observe(observeEls[i]);
 
 // ============================================================
 // ANIMATED COUNTER
 // ============================================================
-function animateCounter(element, target, duration = 2000) {
-  let start = 0;
-  const increment = target / (duration / 16);
-  const timer = setInterval(() => {
+function animateCounter(el, target, duration) {
+  if (!el) return;
+  duration = duration || 2000;
+  var start = 0;
+  var increment = target / Math.max(1, (duration / 16));
+  var timer = setInterval(function() {
     start += increment;
-    if (start >= target) {
-      start = target;
-      clearInterval(timer);
-    }
-    element.textContent = Math.floor(start);
+    if (start >= target) { start = target; clearInterval(timer); }
+    el.textContent = Math.floor(start);
   }, 16);
 }
 
-// Animate stats on hero load
-setTimeout(() => {
+setTimeout(function() {
   animateCounter(document.getElementById('statProjects'), 15);
   animateCounter(document.getElementById('statSkills'), 8);
 }, 2000);
@@ -1086,180 +1101,212 @@ setTimeout(() => {
 // ============================================================
 // TOAST NOTIFICATIONS
 // ============================================================
-function showToast(message, type = 'info') {
-  const container = document.getElementById('toastContainer');
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
+function showToast(msg, type) {
+  type = type || 'info';
+  var container = document.getElementById('toastContainer');
+  if (!container) return;
+  var toast = document.createElement('div');
+  var icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle' };
+  toast.className = 'toast ' + type;
+  toast.innerHTML = '<i class="fas fa-' + (icons[type] || 'info-circle') + '"></i> ' + escHtml(msg);
   container.appendChild(toast);
-  setTimeout(() => {
+  setTimeout(function() {
     toast.style.opacity = '0';
     toast.style.transform = 'translateX(100px)';
     toast.style.transition = 'all 0.4s ease';
-    setTimeout(() => toast.remove(), 400);
+    setTimeout(function() { if (toast.parentNode) toast.remove(); }, 400);
   }, 4000);
 }
 
 // ============================================================
 // VISITOR COUNTER
 // ============================================================
-let visitCount = parseInt(localStorage.getItem('vitor_visits') || '0');
-visitCount++;
-localStorage.setItem('vitor_visits', visitCount.toString());
-document.getElementById('visitorCount').textContent = visitCount;
+function initVisitorCounter() {
+  var visitCount = parseInt(localStorage.getItem('vitor_visits') || '0');
 
-// Try to increment on Supabase too
-if (supabaseAvailable) {
-  (async () => {
-    try {
-      const { data } = await supabaseClient
-        .from('visitors')
-        .select('count')
-        .single();
-      let count = (data ? data.count : 0) + 1;
-      await supabaseClient.from('visitors').upsert({ id: 1, count: count });
-      document.getElementById('visitorCount').textContent = count;
-    } catch {
-      // Fallback already set from localStorage
-    }
-  })();
+  if (supabaseAvailable) {
+    // Primeiro tenta buscar do Supabase
+    (async function() {
+      try {
+        var result = await supabaseClient
+          .from('visitor_count')
+          .select('count')
+          .eq('id', 1)
+          .single();
+
+        if (!result.error && result.data) {
+          visitCount = (parseInt(result.data.count) || 0) + 1;
+          await supabaseClient
+            .from('visitor_count')
+            .update({ count: visitCount })
+            .eq('id', 1);
+        } else {
+          // Tabela vazia ou erro - cria primeiro registro
+          visitCount = 1;
+          try {
+            await supabaseClient
+              .from('visitor_count')
+              .insert([{ id: 1, count: 1 }]);
+          } catch(e2) { /* ignore */ }
+        }
+        localStorage.setItem('vitor_visits', visitCount.toString());
+        var el = document.getElementById('visitorCount');
+        if (el) el.textContent = visitCount;
+      } catch(e) {
+        console.warn('Visitor counter error:', e.message);
+        visitCount++;
+        localStorage.setItem('vitor_visits', visitCount.toString());
+        var el2 = document.getElementById('visitorCount');
+        if (el2) el2.textContent = visitCount;
+      }
+    })();
+  } else {
+    visitCount++;
+    localStorage.setItem('vitor_visits', visitCount.toString());
+    var el3 = document.getElementById('visitorCount');
+    if (el3) el3.textContent = visitCount;
+  }
 }
+
+initVisitorCounter();
 
 // ============================================================
 // BLOG CRUD
 // ============================================================
 async function loadBlogPosts() {
-  const grid = document.getElementById('blogGrid');
-  
+  var grid = document.getElementById('blogGrid');
+  if (!grid) return;
+
+  grid.innerHTML = '<p style="text-align:center;color:var(--text3);grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> Carregando posts...</p>';
+
   if (supabaseAvailable) {
     try {
-      const { data, error } = await supabaseClient
+      var result = await supabaseClient
         .from('blog_posts')
         .select('*')
         .order('created_at', { ascending: false });
-      
-      if (data && data.length > 0) {
-        renderBlogPosts(data);
-        setLocalData('blog_posts', data);
+
+      if (!result.error && result.data && result.data.length > 0) {
+        renderBlogPosts(result.data);
+        setLocalData('blog_posts', result.data);
         return;
       }
-    } catch (e) {
-      console.warn('Blog Supabase error:', e);
+    } catch(e) {
+      console.warn('Blog load error (Supabase):', e.message);
     }
   }
-  
-  // Fallback to local
-  const localData = getLocalData('blog_posts');
-  if (localData.length > 0) {
-    renderBlogPosts(localData);
+
+  // Fallback: localStorage
+  var local = getLocalData('blog_posts');
+  if (local && local.length > 0) {
+    renderBlogPosts(local);
   } else {
-    // Default posts
-    const defaultPosts = [
+    var defaults = [
       { id: 1, title: 'Bem-vindo ao meu portfólio!', content: 'Este é meu primeiro post neste blog. Aqui vou compartilhar meus aprendizados, projetos e experiências como desenvolvedor.', author: 'Vitor', created_at: new Date().toISOString() },
       { id: 2, title: 'Minha jornada com JavaScript', content: 'Desde que comecei a programar, JavaScript sempre foi minha linguagem favorita. A versatilidade e a comunidade incrível fazem toda a diferença.', author: 'Vitor', created_at: new Date().toISOString() },
-      { id: 3, title: '5 dicas para aprender a programar', content: '1 - Pratique todos os dias. 2 - Construa projetos reais. 3 - Não tenha medo de errar. 4 - Participe de comunidades. 5 - Nunca pare de aprender.', author: 'Vitor', created_at: new Date().toISOString() },
+      { id: 3, title: '5 dicas para aprender a programar', content: '1 - Pratique todos os dias. 2 - Construa projetos reais. 3 - Não tenha medo de errar. 4 - Participe de comunidades. 5 - Nunca pare de aprender.', author: 'Vitor', created_at: new Date().toISOString() }
     ];
-    renderBlogPosts(defaultPosts);
+    renderBlogPosts(defaults);
+    setLocalData('blog_posts', defaults);
   }
 }
 
 function renderBlogPosts(posts) {
-  const grid = document.getElementById('blogGrid');
+  var grid = document.getElementById('blogGrid');
+  if (!grid) return;
+
   if (!posts || posts.length === 0) {
     grid.innerHTML = '<p style="text-align:center;color:var(--text3);grid-column:1/-1;">Nenhum post encontrado. Seja o primeiro a publicar!</p>';
     return;
   }
-  grid.innerHTML = posts.map(post => `
-    <div class="blog-card">
-      <div class="blog-img">
-        <i class="fas fa-blog"></i>
-      </div>
-      <div class="blog-body">
-        <h3>${escapeHtml(post.title)}</h3>
-        <p>${escapeHtml(post.content.substring(0, 150))}${post.content.length > 150 ? '...' : ''}</p>
-        <div class="blog-meta">
-          <span><i class="fas fa-user"></i> ${escapeHtml(post.author || 'Vitor')}</span>
-          <span><i class="fas fa-calendar"></i> ${formatDate(post.created_at)}</span>
-        </div>
-        <div class="blog-actions">
-          <button class="btn btn-sm btn-primary" onclick="deleteBlogPost(${post.id || 0})"><i class="fas fa-trash"></i> Excluir</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
+
+  var html = '';
+  for (var i = 0; i < posts.length; i++) {
+    var p = posts[i];
+    html += '<div class="blog-card" id="blog-' + (p.id || i) + '">' +
+      '<div class="blog-img"><i class="fas fa-blog"></i></div>' +
+      '<div class="blog-body">' +
+        '<h3>' + escHtml(p.title) + '</h3>' +
+        '<p>' + escHtml((p.content || '').substring(0, 150)) + ((p.content || '').length > 150 ? '...' : '') + '</p>' +
+        '<div class="blog-meta">' +
+          '<span><i class="fas fa-user"></i> ' + escHtml(p.author || 'Vitor') + '</span>' +
+          '<span><i class="fas fa-calendar"></i> ' + fmtData(p.created_at) + '</span>' +
+        '</div>' +
+        '<div class="blog-actions">' +
+          '<button class="btn btn-sm btn-primary" onclick="deleteBlogPost(' + (p.id || 0) + ')"><i class="fas fa-trash"></i> Excluir</button>' +
+        '</div>' +
+      '</div></div>';
+  }
+  grid.innerHTML = html;
 }
 
 async function createBlogPost() {
-  const title = document.getElementById('blogTitle').value.trim();
-  const content = document.getElementById('blogContent').value.trim();
-  const author = document.getElementById('blogAuthor').value.trim();
-  
+  var title = document.getElementById('blogTitle').value.trim();
+  var content = document.getElementById('blogContent').value.trim();
+  var author = document.getElementById('blogAuthor').value.trim();
+
   if (!title || !content) {
     showToast('Preencha título e conteúdo!', 'error');
     return;
   }
-  
-  const newPost = {
-    title, content, author: author || 'Vitor',
+
+  var newPost = {
+    title: title,
+    content: content,
+    author: author || 'Vitor',
     created_at: new Date().toISOString()
   };
-  
+
   if (supabaseAvailable) {
     try {
-      const { data, error } = await supabaseClient
+      var result = await supabaseClient
         .from('blog_posts')
         .insert([newPost])
         .select();
-      
-      if (error) throw error;
-      if (data) {
+
+      if (!result.error && result.data && result.data.length > 0) {
         showToast('Post publicado com sucesso! 🎉', 'success');
-        loadBlogPosts();
         document.getElementById('blogTitle').value = '';
         document.getElementById('blogContent').value = '';
         document.getElementById('blogAuthor').value = '';
+        await loadBlogPosts();
+        return;
       }
-    } catch (e) {
-      // Fallback to local
-      const localData = getLocalData('blog_posts');
-      newPost.id = Date.now();
-      localData.unshift(newPost);
-      setLocalData('blog_posts', localData);
-      renderBlogPosts(localData);
-      showToast('Post publicado (modo offline)! 🎉', 'success');
-      document.getElementById('blogTitle').value = '';
-      document.getElementById('blogContent').value = '';
-      document.getElementById('blogAuthor').value = '';
+    } catch(e) {
+      console.warn('Blog insert Supabase error:', e.message);
     }
-  } else {
-    const localData = getLocalData('blog_posts');
-    newPost.id = Date.now();
-    localData.unshift(newPost);
-    setLocalData('blog_posts', localData);
-    renderBlogPosts(localData);
-    showToast('Post publicado com sucesso! 🎉', 'success');
-    document.getElementById('blogTitle').value = '';
-    document.getElementById('blogContent').value = '';
-    document.getElementById('blogAuthor').value = '';
   }
+
+  // Fallback local
+  var local = getLocalData('blog_posts') || [];
+  newPost.id = Date.now();
+  local.unshift(newPost);
+  setLocalData('blog_posts', local);
+  renderBlogPosts(local);
+  showToast('Post publicado com sucesso! 🎉', 'success');
+  document.getElementById('blogTitle').value = '';
+  document.getElementById('blogContent').value = '';
+  document.getElementById('blogAuthor').value = '';
 }
 
 async function deleteBlogPost(id) {
   if (!confirm('Tem certeza que deseja excluir este post?')) return;
-  
+
   if (supabaseAvailable) {
     try {
       await supabaseClient.from('blog_posts').delete().eq('id', id);
       showToast('Post excluído com sucesso!', 'success');
-      loadBlogPosts();
+      await loadBlogPosts();
       return;
-    } catch { /* fallback */ }
+    } catch(e) {
+      console.warn('Blog delete Supabase error:', e.message);
+    }
   }
-  
-  let localData = getLocalData('blog_posts');
-  localData = localData.filter(p => p.id !== id);
-  setLocalData('blog_posts', localData);
-  renderBlogPosts(localData);
+
+  var local = getLocalData('blog_posts') || [];
+  local = local.filter(function(p) { return p.id !== id; });
+  setLocalData('blog_posts', local);
+  renderBlogPosts(local);
   showToast('Post excluído com sucesso!', 'success');
 }
 
@@ -1267,147 +1314,157 @@ async function deleteBlogPost(id) {
 // GUESTBOOK CRUD
 // ============================================================
 async function loadGuestbookEntries() {
-  const container = document.getElementById('gbEntries');
-  
+  var container = document.getElementById('gbEntries');
+  if (!container) return;
+
+  container.innerHTML = '<p style="text-align:center;color:var(--text3);grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> Carregando recados...</p>';
+
   if (supabaseAvailable) {
     try {
-      const { data, error } = await supabaseClient
+      var result = await supabaseClient
         .from('guestbook')
         .select('*')
         .order('created_at', { ascending: false });
-      
-      if (data) {
-        renderGuestbookEntries(data);
-        setLocalData('gb_entries', data);
+
+      if (!result.error && result.data && result.data.length > 0) {
+        renderGuestbookEntries(result.data);
+        setLocalData('gb_entries', result.data);
         return;
       }
-    } catch (e) { console.warn('GB Supabase error:', e); }
+    } catch(e) {
+      console.warn('Guestbook load error:', e.message);
+    }
   }
-  
-  const localData = getLocalData('gb_entries');
-  if (localData.length > 0) {
-    renderGuestbookEntries(localData);
+
+  var local = getLocalData('gb_entries');
+  if (local && local.length > 0) {
+    renderGuestbookEntries(local);
   } else {
-    // Default entries
-    const defaults = [
+    var defaults = [
       { id: 1, name: 'Ana', message: 'Parabéns pelo site! Ficou incrível! 🎉', created_at: new Date().toISOString() },
       { id: 2, name: 'Pedro', message: 'Muito legal seus projetos. Continue assim! 💜', created_at: new Date().toISOString() },
-      { id: 3, name: 'Maria', message: 'Seu talento é impressionante. Sucesso! 🚀', created_at: new Date().toISOString() },
+      { id: 3, name: 'Maria', message: 'Seu talento é impressionante. Sucesso! 🚀', created_at: new Date().toISOString() }
     ];
     renderGuestbookEntries(defaults);
+    setLocalData('gb_entries', defaults);
   }
 }
 
 function renderGuestbookEntries(entries) {
-  const container = document.getElementById('gbEntries');
+  var container = document.getElementById('gbEntries');
+  if (!container) return;
+
   if (!entries || entries.length === 0) {
     container.innerHTML = '<p style="text-align:center;color:var(--text3);grid-column:1/-1;">Nenhum recado ainda. Seja o primeiro!</p>';
     return;
   }
-  container.innerHTML = entries.map(entry => `
-    <div class="gb-entry" id="gb-${entry.id}">
-      <div class="gb-entry-header">
-        <strong><i class="fas fa-user-circle"></i> ${escapeHtml(entry.name)}</strong>
-        <div>
-          <span class="gb-entry-date">${formatDate(entry.created_at)}</span>
-          <button class="delete-btn" onclick="deleteGuestbookEntry(${entry.id})" title="Excluir"><i class="fas fa-trash"></i></button>
-        </div>
-      </div>
-      <p>${escapeHtml(entry.message)}</p>
-    </div>
-  `).join('');
+
+  var html = '';
+  for (var i = 0; i < entries.length; i++) {
+    var e = entries[i];
+    html += '<div class="gb-entry" id="gb-' + (e.id || i) + '">' +
+      '<div class="gb-entry-header">' +
+        '<strong><i class="fas fa-user-circle"></i> ' + escHtml(e.name) + '</strong>' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+          '<span class="gb-entry-date">' + fmtDataHora(e.created_at) + '</span>' +
+          '<button class="delete-btn" onclick="deleteGuestbookEntry(' + (e.id || 0) + ')" title="Excluir"><i class="fas fa-trash"></i></button>' +
+        '</div>' +
+      '</div>' +
+      '<p>' + escHtml(e.message) + '</p>' +
+    '</div>';
+  }
+  container.innerHTML = html;
 }
 
 async function addGuestbookEntry() {
-  const name = document.getElementById('gbName').value.trim();
-  const message = document.getElementById('gbMessage').value.trim();
-  
+  var name = document.getElementById('gbName').value.trim();
+  var message = document.getElementById('gbMessage').value.trim();
+
   if (!name || !message) {
     showToast('Preencha nome e mensagem!', 'error');
     return;
   }
-  
-  const newEntry = {
-    name, message,
+
+  var newEntry = {
+    name: name,
+    message: message,
     created_at: new Date().toISOString()
   };
-  
+
   if (supabaseAvailable) {
     try {
-      const { data, error } = await supabaseClient
+      var result = await supabaseClient
         .from('guestbook')
         .insert([newEntry])
         .select();
-      
-      if (error) throw error;
-      if (data) {
+
+      if (!result.error && result.data) {
         showToast('Recado enviado com sucesso! 💜', 'success');
-        loadGuestbookEntries();
         document.getElementById('gbName').value = '';
         document.getElementById('gbMessage').value = '';
+        await loadGuestbookEntries();
+        return;
       }
-    } catch (e) {
-      const localData = getLocalData('gb_entries');
-      newEntry.id = Date.now();
-      localData.unshift(newEntry);
-      setLocalData('gb_entries', localData);
-      renderGuestbookEntries(localData);
-      showToast('Recado enviado (modo offline)! 💜', 'success');
-      document.getElementById('gbName').value = '';
-      document.getElementById('gbMessage').value = '';
+    } catch(e) {
+      console.warn('Guestbook insert Supabase error:', e.message);
     }
-  } else {
-    const localData = getLocalData('gb_entries');
-    newEntry.id = Date.now();
-    localData.unshift(newEntry);
-    setLocalData('gb_entries', localData);
-    renderGuestbookEntries(localData);
-    showToast('Recado enviado com sucesso! 💜', 'success');
-    document.getElementById('gbName').value = '';
-    document.getElementById('gbMessage').value = '';
   }
+
+  var local = getLocalData('gb_entries') || [];
+  newEntry.id = Date.now();
+  local.unshift(newEntry);
+  setLocalData('gb_entries', local);
+  renderGuestbookEntries(local);
+  showToast('Recado enviado com sucesso! 💜', 'success');
+  document.getElementById('gbName').value = '';
+  document.getElementById('gbMessage').value = '';
 }
 
 async function deleteGuestbookEntry(id) {
   if (!confirm('Excluir este recado?')) return;
-  
+
   if (supabaseAvailable) {
     try {
       await supabaseClient.from('guestbook').delete().eq('id', id);
-      const el = document.getElementById('gb-' + id);
+      var el = document.getElementById('gb-' + id);
       if (el) el.remove();
       showToast('Recado excluído!', 'success');
       return;
-    } catch { /* fallback */ }
+    } catch(e) {
+      console.warn('Guestbook delete error:', e.message);
+    }
   }
-  
-  let localData = getLocalData('gb_entries');
-  localData = localData.filter(e => e.id !== id);
-  setLocalData('gb_entries', localData);
-  renderGuestbookEntries(localData);
+
+  var local = getLocalData('gb_entries') || [];
+  local = local.filter(function(e) { return e.id !== id; });
+  setLocalData('gb_entries', local);
+  renderGuestbookEntries(local);
   showToast('Recado excluído!', 'success');
 }
 
 // ============================================================
-// RADIO
+// RADIO PLAYER
 // ============================================================
-let radioPlaying = false;
-const radioAudio = document.getElementById('radioAudio');
-const radioBtn = document.getElementById('radioBtn');
+var radioPlaying = false;
+var radioAudio = document.getElementById('radioAudio');
+var radioBtn = document.getElementById('radioBtn');
 
 function toggleRadio() {
+  if (!radioAudio || !radioBtn) return;
+
   if (radioPlaying) {
     radioAudio.pause();
     radioBtn.innerHTML = '<i class="fas fa-play"></i> Tocar';
     radioBtn.classList.remove('playing');
     radioPlaying = false;
   } else {
-    radioAudio.play().catch(() => {
-      showToast('Erro ao reproduzir rádio', 'error');
+    radioAudio.play().then(function() {
+      radioBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
+      radioBtn.classList.add('playing');
+      radioPlaying = true;
+    }).catch(function() {
+      showToast('Erro ao reproduzir rádio.', 'error');
     });
-    radioBtn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
-    radioBtn.classList.add('playing');
-    radioPlaying = true;
   }
 }
 
@@ -1415,34 +1472,47 @@ function toggleRadio() {
 // PROJECT FILTER
 // ============================================================
 function filterProjects(category, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  var buttons = document.querySelectorAll('.filter-btn');
+  for (var i = 0; i < buttons.length; i++) buttons[i].classList.remove('active');
   btn.classList.add('active');
-  
-  document.querySelectorAll('.project-card').forEach(card => {
-    if (category === 'all' || card.dataset.category === category) {
-      card.style.display = 'block';
-      setTimeout(() => card.style.opacity = '1', 50);
-    } else {
-      card.style.opacity = '0';
-      setTimeout(() => card.style.display = 'none', 300);
-    }
-  });
+
+  var cards = document.querySelectorAll('.project-card');
+  for (var i = 0; i < cards.length; i++) {
+    (function(card) {
+      if (category === 'all' || card.dataset.category === category) {
+        card.style.display = 'block';
+        setTimeout(function() {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 50);
+      } else {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(10px)';
+        setTimeout(function() { card.style.display = 'none'; }, 300);
+      }
+    })(cards[i]);
+  }
 }
 
 // ============================================================
 // CONTACT
 // ============================================================
 function sendContact() {
-  const name = document.getElementById('contactName').value.trim();
-  const email = document.getElementById('contactEmail').value.trim();
-  const subject = document.getElementById('contactSubject').value.trim();
-  const message = document.getElementById('contactMessage').value.trim();
-  
+  var name = document.getElementById('contactName').value.trim();
+  var email = document.getElementById('contactEmail').value.trim();
+  var subject = document.getElementById('contactSubject').value.trim();
+  var message = document.getElementById('contactMessage').value.trim();
+
   if (!name || !email || !subject || !message) {
     showToast('Preencha todos os campos!', 'error');
     return;
   }
-  
+
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+    showToast('Por favor, insira um email válido!', 'error');
+    return;
+  }
+
   showToast('Mensagem enviada com sucesso! ✉️', 'success');
   document.getElementById('contactName').value = '';
   document.getElementById('contactEmail').value = '';
@@ -1451,24 +1521,77 @@ function sendContact() {
 }
 
 // ============================================================
-// UTILITY FUNCTIONS
+// SYNC PERIÓDICO - Busca posts e recados novos de outros usuários
 // ============================================================
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+async function syncRemoteData() {
+  if (!supabaseAvailable) return;
+
+  try {
+    var result = await supabaseClient
+      .from('blog_posts')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (!result.error && result.data && result.data.length > 0) {
+      renderBlogPosts(result.data);
+      setLocalData('blog_posts', result.data);
+    }
+  } catch(e) { console.warn('Sync blog:', e.message); }
+
+  try {
+    var result2 = await supabaseClient
+      .from('guestbook')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (!result2.error && result2.data) {
+      renderGuestbookEntries(result2.data);
+      setLocalData('gb_entries', result2.data);
+    }
+  } catch(e) { console.warn('Sync GB:', e.message); }
+
+  // Sync visitor count
+  try {
+    var result3 = await supabaseClient
+      .from('visitor_count')
+      .select('count')
+      .eq('id', 1)
+      .single();
+    if (!result3.error && result3.data) {
+      var el = document.getElementById('visitorCount');
+      if (el) el.textContent = parseInt(result3.data.count) || 0;
+    }
+  } catch(e) { console.warn('Sync visitors:', e.message); }
 }
 
-function formatDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-}
+// Sincroniza a cada 15 segundos
+syncRemoteData();
+setInterval(syncRemoteData, 15000);
 
 // ============================================================
-// INIT
+// SKILL BAR ANIMATION ON SCROLL
+// ============================================================
+var skillObserver = new IntersectionObserver(function(entries) {
+  for (var i = 0; i < entries.length; i++) {
+    if (entries[i].isIntersecting) {
+      var fills = entries[i].target.querySelectorAll('.skill-bar-fill');
+      for (var j = 0; j < fills.length; j++) {
+        (function(fill) {
+          var w = fill.getAttribute('data-width');
+          if (w) setTimeout(function() { fill.style.width = w + '%'; }, 300);
+        })(fills[j]);
+      }
+    }
+  }
+}, { threshold: 0.3 });
+
+var skillCards = document.querySelectorAll('.skill-card');
+for (var i = 0; i < skillCards.length; i++) skillObserver.observe(skillCards[i]);
+
+// ============================================================
+// INICIALIZAÇÃO
 // ============================================================
 loadBlogPosts();
 loadGuestbookEntries();
+console.log('✅ Vitor Portfolio - Carregado | Supabase:', supabaseAvailable);
 </script>
 </body>
 </html>
